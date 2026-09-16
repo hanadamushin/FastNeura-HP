@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>FastNeura — Dynamic Luminance Study 09</title><style>
+:root{color-scheme:dark;font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#030909;color:#edf9f5}body{overflow:hidden}canvas{position:fixed;inset:0;width:100%;height:100%;display:block}.vignette{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse 95% 70% at 52% 50%,transparent 22%,rgba(0,0,0,.25) 76%,rgba(0,0,0,.65) 100%)}.grain{position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.17' filter='url(%23n)'/%3E%3C/svg%3E")}.header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:clamp(24px,4.5vw,70px) clamp(24px,6.5vw,110px);z-index:2}.brand{font-size:clamp(19px,2vw,26px);font-weight:650;letter-spacing:-.065em}.brand span{color:#7bf1bb}.nav{display:flex;gap:clamp(17px,3vw,48px);align-items:center}.nav a{color:#d1e0da;text-decoration:none;font-size:12px;letter-spacing:.035em;opacity:.82}.nav a:hover{opacity:1}.nav .contact{border:1px solid #ffffff42;padding:11px 19px;border-radius:40px}.hero{position:fixed;z-index:1;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;pointer-events:none;padding:100px 20px 95px}.eyebrow{color:#9fdbc5;letter-spacing:.28em;font-size:10px;font-weight:650;margin-bottom:24px}.hero h1{font-size:clamp(40px,6.8vw,108px);font-weight:480;letter-spacing:-.075em;line-height:1.07;margin:0;text-shadow:0 3px 38px #000a}.hero h1 em{font-style:normal;color:#99e7c6}.hero p{font-size:clamp(12px,1.25vw,16px);letter-spacing:.035em;line-height:1.9;color:#bdccc6;margin:26px 0 0;text-shadow:0 2px 15px #000}.footer{position:fixed;bottom:clamp(25px,5vw,60px);left:clamp(24px,6.5vw,110px);right:clamp(24px,6.5vw,110px);z-index:2;display:flex;align-items:end;justify-content:space-between;color:#849d93;font-size:10px;letter-spacing:.1em}.scroll{display:flex;gap:12px;align-items:center}.scroll:before{content:"";display:block;width:35px;height:1px;background:#8caea0}.controls{position:fixed;z-index:4;right:22px;bottom:19px;display:flex;align-items:center;gap:13px;background:#06120fe0;border:1px solid #8cbaaa35;padding:10px 13px;border-radius:12px;backdrop-filter:blur(16px);font-size:11px;color:#c9e2d7;transition:opacity .25s}.controls label{display:flex;align-items:center;gap:7px}.controls input{accent-color:#80d5ae;width:73px}.controls button{cursor:pointer;border:1px solid #a8cbbb50;background:#ffffff09;color:#e1f8eb;border-radius:6px;padding:6px 8px;font-size:11px}.controls button:hover{background:#ffffff1c}body.clean .header,body.clean .hero,body.clean .footer{display:none}body.clean .controls{opacity:.22}body.clean .controls:hover{opacity:1}@media(max-width:650px){.nav a:not(.contact){display:none}.header{padding-top:28px}.footer{bottom:84px}.hero h1{font-size:clamp(38px,11vw,68px)}.hero p{max-width:310px}.controls{right:10px;bottom:10px;gap:9px;padding:8px}.controls input{width:53px}}
+</style></head><body>
+<canvas id="waves" aria-label="青から緑へ移ろう水平の光の波がゆっくり流れるアニメーション"></canvas><div class="vignette"></div><div class="grain"></div>
+<header class="header"><div class="brand">Fast<span>Neura</span><span style="font-size:8px;vertical-align:top;margin-left:6px;color:#aac6b8;letter-spacing:0">®</span></div><nav class="nav"><a href="#" onclick="return false">Technology</a><a href="#" onclick="return false">Applications</a><a href="#" onclick="return false">About</a><a class="contact" href="mailto:contact@fastneura.com">Contact ↗</a></nav></header>
+<main class="hero"><div class="eyebrow">HUMAN STATE INTELLIGENCE</div><h1>Understand the human.<br><em>Unlock the future.</em></h1><p>人の内側を理解し、テクノロジーと人間の新しい関係をつくる。</p></main>
+<footer class="footer"><span>FASTNEURA / DYNAMIC WAVE LUMINANCE 09</span><span class="scroll">SCROLL TO EXPLORE</span></footer>
+<div class="controls"><label>速度 <input id="speed" aria-label="波の速度" type="range" min="0" max="200" value="65"></label><label>光量 <input id="glow" aria-label="波の光量" type="range" min="10" max="180" value="100"></label><button id="toggle">背景のみ</button><button id="pause">一時停止</button></div>
+<script>
+(()=>{'use strict';const c=document.getElementById('waves'),ctx=c.getContext('2d',{alpha:false});const speed=document.getElementById('speed'),glow=document.getElementById('glow'),toggle=document.getElementById('toggle'),pause=document.getElementById('pause');let w=0,h=0,dpr=1,t=0,last=0,paused=false,visible=true;const TAU=Math.PI*2;function resize(){dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize,{passive:true});resize();const wave=(x,time,i)=>{const u=x/Math.max(w,1),phase=time*.33;return Math.sin(u*TAU*1.22-phase+i*.67)*(.034*h)+Math.sin(u*TAU*2.42-phase*.69+i*1.71)*(.014*h)+Math.sin(u*TAU*.49+phase*.36+i*2.4)*(.027*h)};
+function ribbon(i,time){
+  const luminanceProfiles=[
+    {min:.16,max:.34,period:34,phase:.20},
+    {min:1.10,max:1.58,period:47,phase:2.10},
+    {min:.42,max:.80,period:39,phase:4.35},
+    {min:.82,max:1.30,period:56,phase:1.15},
+    {min:.22,max:.52,period:43,phase:5.40}
+  ];
+  const lp=luminanceProfiles[i] ?? {min:.7,max:1.0,period:45,phase:0};
+  const breathe=.5+.5*Math.sin((time/lp.period)*TAU+lp.phase);
+  const eased=breathe*breathe*(3-2*breathe);
+  const waveGain=lp.min+(lp.max-lp.min)*eased;
+  const blue=i<2;
+  const x0=-w*.22,x1=w*1.22,step=Math.max(6,w/175),yBase=h*(.49+(i-2)*.026);
+  const amplitude=h*(.052+(i%3)*.019),thickness=h*(.050+(i%4)*.019),phase=i*1.09;
+  const points=[];
+  for(let x=x0;x<=x1+step;x+=step){
+    const u=x/w;
+    const center=yBase+wave(x,time,i)*.83+Math.sin(u*TAU*.83-time*.17+phase)*amplitude*.42;
+    const width=thickness*(.60+.40*Math.sin(u*TAU*.79-time*.23+phase+1.4)**2);
+    points.push([x,center-width*.5,center+width*.5]);
+  }
+  function contour(mix){
+    ctx.beginPath();
+    for(let j=0;j<points.length;j++){
+      const p=points[j], y=p[1]*(1-mix)+p[2]*mix;
+      j?ctx.lineTo(p[0],y):ctx.moveTo(p[0],y);
+    }
+  }
+  function color(alpha){
+    alpha *= waveGain;
+    let g=ctx.createLinearGradient(0,0,w,0);
+    if(blue){
+      g.addColorStop(0,`rgba(39,157,215,${alpha*.88*G})`);
+      g.addColorStop(.38,`rgba(95,222,241,${alpha*G})`);
+      g.addColorStop(.67,`rgba(104,239,215,${alpha*.98*G})`);
+      g.addColorStop(1,`rgba(89,218,133,${alpha*.88*G})`);
+    }else{
+      g.addColorStop(0,`rgba(43,167,175,${alpha*.82*G})`);
+      g.addColorStop(.40,`rgba(80,219,190,${alpha*.92*G})`);
+      g.addColorStop(.70,`rgba(123,239,145,${alpha*G})`);
+      g.addColorStop(1,`rgba(92,216,124,${alpha*.86*G})`);
+    }
+    return g;
+  }
+  const layers=22;
+  for(let side=0;side<2;side++){
+    for(let k=0;k<layers;k++){
+      const f=k/(layers-1);
+      const inward=.5*Math.pow(f,1.06);
+      const mix=side===0?inward:1-inward;
+      const alpha=.108*Math.pow(1-f,1.72);
+      ctx.save();
+      contour(mix);
+      ctx.strokeStyle=color(alpha);
+      ctx.lineWidth=Math.max(2.2,h*.0031);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+  ctx.save();
+  ctx.globalAlpha=.52;
+  for(const mix of [.34,.42,.50,.58,.66]){
+    contour(mix);
+    ctx.strokeStyle=color(.012);
+    ctx.lineWidth=Math.max(3.0,h*.0046);
+    ctx.stroke();
+  }
+  ctx.restore();
+  for(let side=0;side<2;side++){
+    const edge=side===0?0:1;
+    ctx.save();
+    contour(edge);
+    ctx.filter=`blur(${Math.max(1.8,h*.00225)}px)`;
+    ctx.strokeStyle=color(.095);
+    ctx.lineWidth=Math.max(3.4,h*.0042);
+    ctx.stroke();
+    ctx.restore();
+  }
+  for(let side=0;side<2;side++){
+    const edge=side===0?0:1;
+    ctx.save();
+    contour(edge);
+    ctx.filter=`blur(${Math.max(.7,h*.0009)}px)`;
+    ctx.strokeStyle=color(.205);
+    ctx.lineWidth=Math.max(1.7,h*.0022);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+let G=1;function draw(){G=Number(glow.value)/100;ctx.fillStyle='#030909';ctx.fillRect(0,0,w,h);let ambient=ctx.createRadialGradient(w*.51,h*.51,0,w*.51,h*.51,w*.75);ambient.addColorStop(0,'rgba(5,31,29,.54)');ambient.addColorStop(.55,'rgba(3,14,15,.34)');ambient.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=ambient;ctx.fillRect(0,0,w,h);ctx.save();ctx.globalCompositeOperation='screen';for(let i=0;i<5;i++)ribbon(i,t);const cy=h*.505+Math.sin(t*.26)*h*.017;let beam=ctx.createLinearGradient(0,cy-h*.057,0,cy+h*.057);beam.addColorStop(0,'rgba(37,170,204,0)');beam.addColorStop(.48,`rgba(50,181,190,${.027*G})`);beam.addColorStop(.5,`rgba(139,239,229,${.080*G})`);beam.addColorStop(.52,`rgba(55,191,171,${.027*G})`);beam.addColorStop(1,'rgba(38,181,155,0)');ctx.save();ctx.filter=`blur(${Math.max(3.3,h*.0045)}px)`;ctx.fillStyle=beam;ctx.fillRect(0,cy-h*.057,w,h*.114);ctx.restore();ctx.restore()}
+function frame(now){if(!last)last=now;const dt=Math.min((now-last)/1000,.05);last=now;if(!paused&&visible)t+=dt*Number(speed.value)/65;draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);toggle.addEventListener('click',()=>{document.body.classList.toggle('clean');toggle.textContent=document.body.classList.contains('clean')?'文字を表示':'背景のみ'});pause.addEventListener('click',()=>{paused=!paused;pause.textContent=paused?'再開':'一時停止'});document.addEventListener('visibilitychange',()=>{visible=!document.hidden;last=0});if(matchMedia('(prefers-reduced-motion: reduce)').matches){paused=true;pause.textContent='再開'}
+})();
+</script></body></html>

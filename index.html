@@ -36,12 +36,24 @@
 
     .hero{position:relative;min-height:100svh;background:var(--dark);color:white;overflow:hidden}
     #waves{position:absolute;inset:0;width:100%;height:100%;display:block}
-    .hero-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 95% 72% at 52% 50%,transparent 24%,rgba(0,0,0,.22) 72%,rgba(0,0,0,.58) 100%)}
+    .hero-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 95% 72% at 50% 50%,transparent 24%,rgba(0,0,0,.22) 72%,rgba(0,0,0,.58) 100%)}
     .hero-grain{position:absolute;inset:0;pointer-events:none;opacity:.10;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.16' filter='url(%23n)'/%3E%3C/svg%3E")}
-    .hero-inner{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:150px 0 80px}
-    .hero-kicker{font-size:13px;letter-spacing:.12em;color:#a3d7c1;margin-bottom:20px}
-    .hero h1{margin:0;max-width:920px;font-size:clamp(42px,7.4vw,108px);font-weight:460;letter-spacing:-.065em;line-height:1.04;text-wrap:balance;text-shadow:0 4px 32px #0009}
-    .hero-bottom{display:flex;justify-content:space-between;gap:32px;align-items:end;margin-top:54px;border-top:1px solid #ffffff28;padding-top:24px}
+    .hero-inner{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;padding:120px 0 80px}
+    .hero-kicker{width:min(49vw,640px);font-size:13px;letter-spacing:.12em;color:#c6ded3;margin-bottom:24px;text-align:left;text-shadow:0 3px 20px #000b}
+    .hero h1{
+      margin:0;
+      width:min(49vw,640px);
+      color:#fff;
+      font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho","Noto Serif JP",serif;
+      font-size:clamp(34px,4vw,64px);
+      font-weight:500;
+      letter-spacing:.035em;
+      line-height:1.42;
+      text-align:left;
+      text-shadow:0 4px 30px #000c,0 1px 6px #000a;
+    }
+    .hero h1 span{display:block;white-space:nowrap}
+    .hero-bottom{position:absolute;left:0;right:0;bottom:52px;display:flex;justify-content:space-between;gap:32px;align-items:end;border-top:1px solid #ffffff28;padding-top:20px}
     .hero-bottom p{margin:0;max-width:720px;color:#d4e1db;font-size:clamp(14px,1.5vw,18px)}
     .scroll{font-size:10px;letter-spacing:.12em;color:#95aaa0;white-space:nowrap}
 
@@ -92,7 +104,11 @@
     @media(max-width:800px){
       .wrap{width:min(calc(100% - 32px),var(--max))}
       .site-header{padding:22px 16px}.nav a:not(.contact){display:none}
-      .hero-inner{padding-bottom:42px}.hero-bottom{align-items:start;flex-direction:column}
+      .hero-inner{align-items:flex-start;padding-top:110px;padding-bottom:120px}
+      .hero-kicker,.hero h1{width:100%}
+      .hero h1{font-size:clamp(30px,8.7vw,48px);line-height:1.5}
+      .hero h1 span{white-space:normal}
+      .hero-bottom{bottom:34px;align-items:start;flex-direction:column;gap:10px}
       section{padding:84px 0}.section-head{grid-template-columns:1fr;gap:16px;margin-bottom:42px}
       .sync-copy{grid-template-columns:1fr;gap:28px}.principle{grid-template-columns:56px 1fr;gap:18px}
       .service-grid{grid-template-columns:1fr}.service-card{min-height:auto}.service-card .num{margin-bottom:36px}
@@ -118,7 +134,7 @@
       <div class="hero-vignette"></div><div class="hero-grain"></div>
       <div class="wrap hero-inner">
         <div class="hero-kicker">Sync OS</div>
-        <h1>人の状態に応答する環境知能を暮らしと現場へ</h1>
+        <h1><span>人の状態に応答する</span><span>環境知能を</span><span>暮らしと現場へ</span></h1>
         <div class="hero-bottom">
           <p>人間の状態をAIが理解し、環境・デバイス・AIエージェントが自然に適応する。</p>
           <span class="scroll">SCROLL TO EXPLORE</span>
@@ -197,7 +213,7 @@
     function ribbon(i,time){
       const lp=[{min:.16,max:.34,period:34,phase:.20},{min:1.10,max:1.58,period:47,phase:2.10},{min:.42,max:.80,period:39,phase:4.35},{min:.82,max:1.30,period:56,phase:1.15},{min:.22,max:.52,period:43,phase:5.40}][i];
       const breathe=.5+.5*Math.sin((time/lp.period)*TAU+lp.phase),eased=breathe*breathe*(3-2*breathe),waveGain=lp.min+(lp.max-lp.min)*eased,blue=i<2;
-      const x0=-w*.22,x1=w*1.22,step=Math.max(6,w/175),yBase=h*(.49+(i-2)*.026),amplitude=h*(.052+(i%3)*.019),thickness=h*(.050+(i%4)*.019),phase=i*1.09,points=[];
+      const x0=-w*.22,x1=w*1.22,step=Math.max(6,w/175),yBase=h*(.5+(i-2)*.026),amplitude=h*(.052+(i%3)*.019),thickness=h*(.050+(i%4)*.019),phase=i*1.09,points=[];
       for(let x=x0;x<=x1+step;x+=step){const u=x/w,center=yBase+wave(x,time,i)*.83+Math.sin(u*TAU*.83-time*.17+phase)*amplitude*.42,width=thickness*(.60+.40*Math.sin(u*TAU*.79-time*.23+phase+1.4)**2);points.push([x,center-width*.5,center+width*.5])}
       function contour(mix){ctx.beginPath();for(let j=0;j<points.length;j++){const p=points[j],y=p[1]*(1-mix)+p[2]*mix;j?ctx.lineTo(p[0],y):ctx.moveTo(p[0],y)}}
       function color(alpha){alpha*=waveGain;const g=ctx.createLinearGradient(0,0,w,0);if(blue){g.addColorStop(0,`rgba(39,157,215,${alpha*.88*G})`);g.addColorStop(.38,`rgba(95,222,241,${alpha*G})`);g.addColorStop(.67,`rgba(104,239,215,${alpha*.98*G})`);g.addColorStop(1,`rgba(89,218,133,${alpha*.88*G})`)}else{g.addColorStop(0,`rgba(43,167,175,${alpha*.82*G})`);g.addColorStop(.40,`rgba(80,219,190,${alpha*.92*G})`);g.addColorStop(.70,`rgba(123,239,145,${alpha*G})`);g.addColorStop(1,`rgba(92,216,124,${alpha*.86*G})`)}return g}
@@ -207,7 +223,7 @@
       for(let side=0;side<2;side++){const edge=side===0?0:1;ctx.save();contour(edge);ctx.filter=`blur(${Math.max(1.8,h*.00225)}px)`;ctx.strokeStyle=color(.095);ctx.lineWidth=Math.max(3.4,h*.0042);ctx.stroke();ctx.restore()}
       for(let side=0;side<2;side++){const edge=side===0?0:1;ctx.save();contour(edge);ctx.filter=`blur(${Math.max(.7,h*.0009)}px)`;ctx.strokeStyle=color(.205);ctx.lineWidth=Math.max(1.7,h*.0022);ctx.stroke();ctx.restore()}
     }
-    function draw(){ctx.fillStyle='#030909';ctx.fillRect(0,0,w,h);const ambient=ctx.createRadialGradient(w*.51,h*.51,0,w*.51,h*.51,w*.75);ambient.addColorStop(0,'rgba(5,31,29,.54)');ambient.addColorStop(.55,'rgba(3,14,15,.34)');ambient.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=ambient;ctx.fillRect(0,0,w,h);ctx.save();ctx.globalCompositeOperation='screen';for(let i=0;i<5;i++)ribbon(i,t);const cy=h*.505+Math.sin(t*.26)*h*.017,beam=ctx.createLinearGradient(0,cy-h*.057,0,cy+h*.057);beam.addColorStop(0,'rgba(37,170,204,0)');beam.addColorStop(.48,'rgba(50,181,190,.027)');beam.addColorStop(.5,'rgba(139,239,229,.080)');beam.addColorStop(.52,'rgba(55,191,171,.027)');beam.addColorStop(1,'rgba(38,181,155,0)');ctx.save();ctx.filter=`blur(${Math.max(3.3,h*.0045)}px)`;ctx.fillStyle=beam;ctx.fillRect(0,cy-h*.057,w,h*.114);ctx.restore();ctx.restore()}
+    function draw(){ctx.fillStyle='#030909';ctx.fillRect(0,0,w,h);const ambient=ctx.createRadialGradient(w*.5,h*.5,0,w*.5,h*.5,w*.75);ambient.addColorStop(0,'rgba(5,31,29,.54)');ambient.addColorStop(.55,'rgba(3,14,15,.34)');ambient.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=ambient;ctx.fillRect(0,0,w,h);ctx.save();ctx.globalCompositeOperation='screen';for(let i=0;i<5;i++)ribbon(i,t);const cy=h*.5,beam=ctx.createLinearGradient(0,cy-h*.057,0,cy+h*.057);beam.addColorStop(0,'rgba(37,170,204,0)');beam.addColorStop(.48,'rgba(50,181,190,.027)');beam.addColorStop(.5,'rgba(139,239,229,.080)');beam.addColorStop(.52,'rgba(55,191,171,.027)');beam.addColorStop(1,'rgba(38,181,155,0)');ctx.save();ctx.filter=`blur(${Math.max(3.3,h*.0045)}px)`;ctx.fillStyle=beam;ctx.fillRect(0,cy-h*.057,w,h*.114);ctx.restore();ctx.restore()}
     const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
     function frame(now){if(!last)last=now;const dt=Math.min((now-last)/1000,.05);last=now;if(!reduced&&visible)t+=dt;draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);
     document.addEventListener('visibilitychange',()=>{visible=!document.hidden;last=0});

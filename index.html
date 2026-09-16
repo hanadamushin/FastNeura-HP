@@ -1,105 +1,217 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>FastNeura — Dynamic Luminance Study 09</title><style>
-:root{color-scheme:dark;font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#030909;color:#edf9f5}body{overflow:hidden}canvas{position:fixed;inset:0;width:100%;height:100%;display:block}.vignette{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse 95% 70% at 52% 50%,transparent 22%,rgba(0,0,0,.25) 76%,rgba(0,0,0,.65) 100%)}.grain{position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.17' filter='url(%23n)'/%3E%3C/svg%3E")}.header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:clamp(24px,4.5vw,70px) clamp(24px,6.5vw,110px);z-index:2}.brand{font-size:clamp(19px,2vw,26px);font-weight:650;letter-spacing:-.065em}.brand span{color:#7bf1bb}.nav{display:flex;gap:clamp(17px,3vw,48px);align-items:center}.nav a{color:#d1e0da;text-decoration:none;font-size:12px;letter-spacing:.035em;opacity:.82}.nav a:hover{opacity:1}.nav .contact{border:1px solid #ffffff42;padding:11px 19px;border-radius:40px}.hero{position:fixed;z-index:1;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;pointer-events:none;padding:100px 20px 95px}.eyebrow{color:#9fdbc5;letter-spacing:.28em;font-size:10px;font-weight:650;margin-bottom:24px}.hero h1{font-size:clamp(40px,6.8vw,108px);font-weight:480;letter-spacing:-.075em;line-height:1.07;margin:0;text-shadow:0 3px 38px #000a}.hero h1 em{font-style:normal;color:#99e7c6}.hero p{font-size:clamp(12px,1.25vw,16px);letter-spacing:.035em;line-height:1.9;color:#bdccc6;margin:26px 0 0;text-shadow:0 2px 15px #000}.footer{position:fixed;bottom:clamp(25px,5vw,60px);left:clamp(24px,6.5vw,110px);right:clamp(24px,6.5vw,110px);z-index:2;display:flex;align-items:end;justify-content:space-between;color:#849d93;font-size:10px;letter-spacing:.1em}.scroll{display:flex;gap:12px;align-items:center}.scroll:before{content:"";display:block;width:35px;height:1px;background:#8caea0}.controls{position:fixed;z-index:4;right:22px;bottom:19px;display:flex;align-items:center;gap:13px;background:#06120fe0;border:1px solid #8cbaaa35;padding:10px 13px;border-radius:12px;backdrop-filter:blur(16px);font-size:11px;color:#c9e2d7;transition:opacity .25s}.controls label{display:flex;align-items:center;gap:7px}.controls input{accent-color:#80d5ae;width:73px}.controls button{cursor:pointer;border:1px solid #a8cbbb50;background:#ffffff09;color:#e1f8eb;border-radius:6px;padding:6px 8px;font-size:11px}.controls button:hover{background:#ffffff1c}body.clean .header,body.clean .hero,body.clean .footer{display:none}body.clean .controls{opacity:.22}body.clean .controls:hover{opacity:1}@media(max-width:650px){.nav a:not(.contact){display:none}.header{padding-top:28px}.footer{bottom:84px}.hero h1{font-size:clamp(38px,11vw,68px)}.hero p{max-width:310px}.controls{right:10px;bottom:10px;gap:9px;padding:8px}.controls input{width:53px}}
-</style></head><body>
-<canvas id="waves" aria-label="青から緑へ移ろう水平の光の波がゆっくり流れるアニメーション"></canvas><div class="vignette"></div><div class="grain"></div>
-<header class="header"><div class="brand">Fast<span>Neura</span><span style="font-size:8px;vertical-align:top;margin-left:6px;color:#aac6b8;letter-spacing:0">®</span></div><nav class="nav"><a href="#" onclick="return false">Technology</a><a href="#" onclick="return false">Applications</a><a href="#" onclick="return false">About</a><a class="contact" href="mailto:contact@fastneura.com">Contact ↗</a></nav></header>
-<main class="hero"><div class="eyebrow">HUMAN STATE INTELLIGENCE</div><h1>Understand the human.<br><em>Unlock the future.</em></h1><p>人の内側を理解し、テクノロジーと人間の新しい関係をつくる。</p></main>
-<footer class="footer"><span>FASTNEURA / DYNAMIC WAVE LUMINANCE 09</span><span class="scroll">SCROLL TO EXPLORE</span></footer>
-<div class="controls"><label>速度 <input id="speed" aria-label="波の速度" type="range" min="0" max="200" value="65"></label><label>光量 <input id="glow" aria-label="波の光量" type="range" min="10" max="180" value="100"></label><button id="toggle">背景のみ</button><button id="pause">一時停止</button></div>
-<script>
-(()=>{'use strict';const c=document.getElementById('waves'),ctx=c.getContext('2d',{alpha:false});const speed=document.getElementById('speed'),glow=document.getElementById('glow'),toggle=document.getElementById('toggle'),pause=document.getElementById('pause');let w=0,h=0,dpr=1,t=0,last=0,paused=false,visible=true;const TAU=Math.PI*2;function resize(){dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize,{passive:true});resize();const wave=(x,time,i)=>{const u=x/Math.max(w,1),phase=time*.33;return Math.sin(u*TAU*1.22-phase+i*.67)*(.034*h)+Math.sin(u*TAU*2.42-phase*.69+i*1.71)*(.014*h)+Math.sin(u*TAU*.49+phase*.36+i*2.4)*(.027*h)};
-function ribbon(i,time){
-  const luminanceProfiles=[
-    {min:.16,max:.34,period:34,phase:.20},
-    {min:1.10,max:1.58,period:47,phase:2.10},
-    {min:.42,max:.80,period:39,phase:4.35},
-    {min:.82,max:1.30,period:56,phase:1.15},
-    {min:.22,max:.52,period:43,phase:5.40}
-  ];
-  const lp=luminanceProfiles[i] ?? {min:.7,max:1.0,period:45,phase:0};
-  const breathe=.5+.5*Math.sin((time/lp.period)*TAU+lp.phase);
-  const eased=breathe*breathe*(3-2*breathe);
-  const waveGain=lp.min+(lp.max-lp.min)*eased;
-  const blue=i<2;
-  const x0=-w*.22,x1=w*1.22,step=Math.max(6,w/175),yBase=h*(.49+(i-2)*.026);
-  const amplitude=h*(.052+(i%3)*.019),thickness=h*(.050+(i%4)*.019),phase=i*1.09;
-  const points=[];
-  for(let x=x0;x<=x1+step;x+=step){
-    const u=x/w;
-    const center=yBase+wave(x,time,i)*.83+Math.sin(u*TAU*.83-time*.17+phase)*amplitude*.42;
-    const width=thickness*(.60+.40*Math.sin(u*TAU*.79-time*.23+phase+1.4)**2);
-    points.push([x,center-width*.5,center+width*.5]);
-  }
-  function contour(mix){
-    ctx.beginPath();
-    for(let j=0;j<points.length;j++){
-      const p=points[j], y=p[1]*(1-mix)+p[2]*mix;
-      j?ctx.lineTo(p[0],y):ctx.moveTo(p[0],y);
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="FastNeuraは、脳波・心拍などの生体データから人間の内的状態を推定し、その状態に応じて周囲が応答する生体適応型AIプラットフォーム『Sync OS』を開発しています。">
+  <title>FastNeura - Cutting-Edge NeuroTech × AI Startup</title>
+  <style>
+    :root{
+      --bg:#f4f5f2;
+      --ink:#101612;
+      --muted:#6d7971;
+      --line:#d7ddd8;
+      --green:#78e1ad;
+      --dark:#030909;
+      --max:1180px;
+      font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,"Noto Sans JP",sans-serif;
     }
-  }
-  function color(alpha){
-    alpha *= waveGain;
-    let g=ctx.createLinearGradient(0,0,w,0);
-    if(blue){
-      g.addColorStop(0,`rgba(39,157,215,${alpha*.88*G})`);
-      g.addColorStop(.38,`rgba(95,222,241,${alpha*G})`);
-      g.addColorStop(.67,`rgba(104,239,215,${alpha*.98*G})`);
-      g.addColorStop(1,`rgba(89,218,133,${alpha*.88*G})`);
-    }else{
-      g.addColorStop(0,`rgba(43,167,175,${alpha*.82*G})`);
-      g.addColorStop(.40,`rgba(80,219,190,${alpha*.92*G})`);
-      g.addColorStop(.70,`rgba(123,239,145,${alpha*G})`);
-      g.addColorStop(1,`rgba(92,216,124,${alpha*.86*G})`);
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);line-height:1.7}
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(calc(100% - 48px),var(--max));margin-inline:auto}
+
+    .site-header{
+      position:absolute;inset:0 0 auto;z-index:20;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:26px max(24px,calc((100vw - var(--max))/2));
+      color:#effaf4;
     }
-    return g;
-  }
-  const layers=22;
-  for(let side=0;side<2;side++){
-    for(let k=0;k<layers;k++){
-      const f=k/(layers-1);
-      const inward=.5*Math.pow(f,1.06);
-      const mix=side===0?inward:1-inward;
-      const alpha=.108*Math.pow(1-f,1.72);
-      ctx.save();
-      contour(mix);
-      ctx.strokeStyle=color(alpha);
-      ctx.lineWidth=Math.max(2.2,h*.0031);
-      ctx.stroke();
-      ctx.restore();
+    .brand{font-size:23px;font-weight:700;letter-spacing:-.055em}
+    .brand span{color:#84edb8}
+    .nav{display:flex;align-items:center;gap:32px;font-size:12px;letter-spacing:.04em}
+    .nav a{opacity:.82}.nav a:hover{opacity:1}
+    .nav .contact{border:1px solid #ffffff45;border-radius:999px;padding:10px 18px}
+
+    .hero{position:relative;min-height:100svh;background:var(--dark);color:white;overflow:hidden}
+    #waves{position:absolute;inset:0;width:100%;height:100%;display:block}
+    .hero-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 95% 72% at 52% 50%,transparent 24%,rgba(0,0,0,.22) 72%,rgba(0,0,0,.58) 100%)}
+    .hero-grain{position:absolute;inset:0;pointer-events:none;opacity:.10;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.16' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .hero-inner{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:150px 0 80px}
+    .hero-kicker{font-size:13px;letter-spacing:.12em;color:#a3d7c1;margin-bottom:20px}
+    .hero h1{margin:0;max-width:920px;font-size:clamp(42px,7.4vw,108px);font-weight:460;letter-spacing:-.065em;line-height:1.04;text-wrap:balance;text-shadow:0 4px 32px #0009}
+    .hero-bottom{display:flex;justify-content:space-between;gap:32px;align-items:end;margin-top:54px;border-top:1px solid #ffffff28;padding-top:24px}
+    .hero-bottom p{margin:0;max-width:720px;color:#d4e1db;font-size:clamp(14px,1.5vw,18px)}
+    .scroll{font-size:10px;letter-spacing:.12em;color:#95aaa0;white-space:nowrap}
+
+    section{padding:120px 0}
+    .section-head{display:grid;grid-template-columns:180px 1fr;gap:44px;margin-bottom:64px}
+    .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+    h2{margin:0;font-size:clamp(34px,5vw,68px);line-height:1.08;letter-spacing:-.05em;font-weight:500}
+    .lead{font-size:clamp(18px,2vw,27px);line-height:1.7;max-width:950px;margin:0}
+    .muted{color:var(--muted)}
+
+    .sync-intro{background:#fff}
+    .sync-title{font-size:clamp(56px,10vw,140px);line-height:.9;letter-spacing:-.075em;margin:0 0 60px;font-weight:520}
+    .sync-copy{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+    .sync-copy h2{font-size:clamp(30px,4.2vw,58px)}
+    .sync-copy p{font-size:18px;margin:0;color:#4e5a53}
+
+    .principles{padding-top:20px;background:#fff}
+    .principle{display:grid;grid-template-columns:100px 1fr;gap:34px;padding:38px 0;border-top:1px solid var(--line)}
+    .principle:last-child{border-bottom:1px solid var(--line)}
+    .num{font-size:14px;color:#7a8a80;letter-spacing:.08em}
+    .principle p{margin:0;font-size:clamp(22px,3vw,40px);line-height:1.45;letter-spacing:-.03em;max-width:1000px}
+
+    .about{background:#101713;color:#edf3ef}
+    .about .eyebrow,.about .muted{color:#92a398}
+    .about p{font-size:clamp(18px,2vw,27px);line-height:1.9;margin:0;max-width:1000px;color:#d1dbd5}
+
+    .service{background:#e9ede9}
+    .service-intro{max-width:820px;margin:24px 0 70px;font-size:18px;color:#556159}
+    .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#cfd7d1;border:1px solid #cfd7d1}
+    .service-card{background:#f7f8f6;padding:40px;min-height:340px;display:flex;flex-direction:column}
+    .service-card .num{margin-bottom:auto}
+    .service-card h3{font-size:28px;margin:52px 0 16px;letter-spacing:-.035em}
+    .service-card p{margin:0;color:#637067}
+
+    .partners{background:#fff}
+    .partners-list{margin-top:58px;border-top:1px solid var(--line)}
+    .partner{display:grid;grid-template-columns:280px 1fr;gap:46px;padding:26px 0;border-bottom:1px solid var(--line)}
+    .partner strong{font-size:18px;font-weight:550}
+    .partner span{color:#5f6c64}
+
+    .contact-section{background:#08100c;color:#eff5f1;padding:120px 0 70px}
+    .contact-section h2{font-size:clamp(56px,10vw,138px);margin-bottom:30px}
+    .contact-row{display:flex;justify-content:space-between;gap:30px;align-items:end;border-top:1px solid #ffffff25;padding-top:28px}
+    .contact-row p{margin:0;color:#afbeb6}
+    .contact-link{font-size:22px;border-bottom:1px solid #9bdab9;padding-bottom:4px}
+    .site-footer{background:#08100c;color:#6f8278;padding:0 0 36px;font-size:11px;letter-spacing:.08em}
+
+    @media(max-width:800px){
+      .wrap{width:min(calc(100% - 32px),var(--max))}
+      .site-header{padding:22px 16px}.nav a:not(.contact){display:none}
+      .hero-inner{padding-bottom:42px}.hero-bottom{align-items:start;flex-direction:column}
+      section{padding:84px 0}.section-head{grid-template-columns:1fr;gap:16px;margin-bottom:42px}
+      .sync-copy{grid-template-columns:1fr;gap:28px}.principle{grid-template-columns:56px 1fr;gap:18px}
+      .service-grid{grid-template-columns:1fr}.service-card{min-height:auto}.service-card .num{margin-bottom:36px}
+      .partner{grid-template-columns:1fr;gap:8px}.contact-row{flex-direction:column;align-items:flex-start}
     }
-  }
-  ctx.save();
-  ctx.globalAlpha=.52;
-  for(const mix of [.34,.42,.50,.58,.66]){
-    contour(mix);
-    ctx.strokeStyle=color(.012);
-    ctx.lineWidth=Math.max(3.0,h*.0046);
-    ctx.stroke();
-  }
-  ctx.restore();
-  for(let side=0;side<2;side++){
-    const edge=side===0?0:1;
-    ctx.save();
-    contour(edge);
-    ctx.filter=`blur(${Math.max(1.8,h*.00225)}px)`;
-    ctx.strokeStyle=color(.095);
-    ctx.lineWidth=Math.max(3.4,h*.0042);
-    ctx.stroke();
-    ctx.restore();
-  }
-  for(let side=0;side<2;side++){
-    const edge=side===0?0:1;
-    ctx.save();
-    contour(edge);
-    ctx.filter=`blur(${Math.max(.7,h*.0009)}px)`;
-    ctx.strokeStyle=color(.205);
-    ctx.lineWidth=Math.max(1.7,h*.0022);
-    ctx.stroke();
-    ctx.restore();
-  }
-}
-let G=1;function draw(){G=Number(glow.value)/100;ctx.fillStyle='#030909';ctx.fillRect(0,0,w,h);let ambient=ctx.createRadialGradient(w*.51,h*.51,0,w*.51,h*.51,w*.75);ambient.addColorStop(0,'rgba(5,31,29,.54)');ambient.addColorStop(.55,'rgba(3,14,15,.34)');ambient.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=ambient;ctx.fillRect(0,0,w,h);ctx.save();ctx.globalCompositeOperation='screen';for(let i=0;i<5;i++)ribbon(i,t);const cy=h*.505+Math.sin(t*.26)*h*.017;let beam=ctx.createLinearGradient(0,cy-h*.057,0,cy+h*.057);beam.addColorStop(0,'rgba(37,170,204,0)');beam.addColorStop(.48,`rgba(50,181,190,${.027*G})`);beam.addColorStop(.5,`rgba(139,239,229,${.080*G})`);beam.addColorStop(.52,`rgba(55,191,171,${.027*G})`);beam.addColorStop(1,'rgba(38,181,155,0)');ctx.save();ctx.filter=`blur(${Math.max(3.3,h*.0045)}px)`;ctx.fillStyle=beam;ctx.fillRect(0,cy-h*.057,w,h*.114);ctx.restore();ctx.restore()}
-function frame(now){if(!last)last=now;const dt=Math.min((now-last)/1000,.05);last=now;if(!paused&&visible)t+=dt*Number(speed.value)/65;draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);toggle.addEventListener('click',()=>{document.body.classList.toggle('clean');toggle.textContent=document.body.classList.contains('clean')?'文字を表示':'背景のみ'});pause.addEventListener('click',()=>{paused=!paused;pause.textContent=paused?'再開':'一時停止'});document.addEventListener('visibilitychange',()=>{visible=!document.hidden;last=0});if(matchMedia('(prefers-reduced-motion: reduce)').matches){paused=true;pause.textContent='再開'}
-})();
-</script></body></html>
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">Fast<span>Neura</span></a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#sync">Sync OS</a>
+      <a href="#about">About us</a>
+      <a href="#service">Service</a>
+      <a href="#partners">Partners</a>
+      <a class="contact" href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <canvas id="waves" aria-hidden="true"></canvas>
+      <div class="hero-vignette"></div><div class="hero-grain"></div>
+      <div class="wrap hero-inner">
+        <div class="hero-kicker">Sync OS</div>
+        <h1>人の状態に応答する環境知能を暮らしと現場へ</h1>
+        <div class="hero-bottom">
+          <p>人間の状態をAIが理解し、環境・デバイス・AIエージェントが自然に適応する。</p>
+          <span class="scroll">SCROLL TO EXPLORE</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sync-intro" id="sync">
+      <div class="wrap">
+        <p class="sync-title">Sync OS</p>
+        <div class="sync-copy">
+          <h2>人間の状態をAIが理解し、環境・デバイス・AIエージェントが自然に適応する。</h2>
+          <p>FastNeuraは、脳波・心拍などの生体データから人間の内的状態を推定し、その状態に応じて周囲が応答する生体適応型AIプラットフォーム「Sync OS」を開発しています。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles">
+      <div class="wrap">
+        <div class="principle"><div class="num">01</div><p>疲労・集中・ストレスといった、本人も言葉にしづらい「内側の状態」。</p></div>
+        <div class="principle"><div class="num">02</div><p>Syncはそれを生体データから読み取り、環境やAIが自然に応答する仕組みをつくります。</p></div>
+        <div class="principle"><div class="num">03</div><p>計測して終わりではなく、その状態に応じて空間・デバイス・AIが動く ── それがSyncです。</p></div>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">About us</div><h2>About us</h2></div>
+        <p>FastNeuraは、脳波・心拍などの生体データから人間の内的状態を推定し、環境・デバイス・AIエージェントが自然に応答する環境知能を実装する、東京大学発の神経科学×AIスタートアップです。人が明示的に操作する前に、周囲が状態を理解し、集中・回復・ストレス緩和・安全性向上を自然に支援する仕組みをつくっています。さらに、職人やものづくり現場で非言語的に伝えられてきた注意・集中・判断の暗黙知を、生体データから捉え、エージェントやロボットとの協働で生じる負荷やリスクを下げていきます。</p>
+      </div>
+    </section>
+
+    <section class="service" id="service">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">Service</div><h2>Service</h2></div>
+        <p class="service-intro">私たちは、神経科学とAIを融合し、人間の状態を扱うためのOS層を構築しています。研究開発から実装まで、3つの形でパートナーと協働します。</p>
+        <div class="service-grid">
+          <article class="service-card"><div class="num">01</div><h3>共同研究・開発</h3><p>神経科学・生体データ解析からAgent・Physical AIまで、未踏領域の研究開発を企業・アカデミアと共に推進します。</p></article>
+          <article class="service-card"><div class="num">02</div><h3>プロダクト開発</h3><p>非言語情報の統合基盤や介入のための感覚刺激ハードウェアまで、ソフトとハードの両輪で開発・提供します。</p></article>
+          <article class="service-card"><div class="num">03</div><h3>プラットフォーム</h3><p>人間の状態を読み、書き、最適化するOS「Sync」を、ヘルスケア・防衛・住空間・労働・宇宙の各領域へ展開します。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="partners" id="partners">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">Partners</div><h2>実績・信頼</h2></div>
+        <p class="lead muted">FastNeuraは、事業会社・研究機関・自治体との共同研究および実証を通じて、Sync OSの社会実装を進めています。</p>
+        <div class="partners-list">
+          <div class="partner"><strong>XGモバイル推進フォーラム</strong><span>ニューロサイエンスを介したヒトとAIの共進化、XG/6G時代の環境知能の可能性を講演</span></div>
+          <div class="partner"><strong>ON&amp;BOARD</strong><span>創業支援プログラム「Out of BOUNDS」第4期 採択・DemoDayピッチ優勝</span></div>
+          <div class="partner"><strong>JISDA</strong><span>認知支援・生体センシング領域における戦略的協業（医療・バイオコンソーシアム「RESCUE」）</span></div>
+          <div class="partner"><strong>人間拡張コンソーシアム</strong><span>人間拡張領域における生体適応型AIの活用可能性を講演</span></div>
+          <div class="partner"><strong>応用脳科学コンソーシアム</strong><span>テクニカルコースにて登壇</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="wrap">
+        <div class="eyebrow">CONTACT</div>
+        <h2>CONTACT</h2>
+        <div class="contact-row"><p>弊社にご興味を持っていただきありがとうございます。<br>お気軽にお問い合わせください。</p><a class="contact-link" href="mailto:contact@fastneura.com">Contact us →</a></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wrap">© FastNeura Inc.</div></footer>
+
+  <script>
+  (()=>{'use strict';
+    const c=document.getElementById('waves'),ctx=c.getContext('2d',{alpha:false});
+    const hero=document.querySelector('.hero'); let w=0,h=0,dpr=1,t=0,last=0,visible=true; const TAU=Math.PI*2; const G=1;
+    function resize(){dpr=Math.min(devicePixelRatio||1,2);w=hero.clientWidth;h=hero.clientHeight;c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}
+    addEventListener('resize',resize,{passive:true});resize();
+    const wave=(x,time,i)=>{const u=x/Math.max(w,1),phase=time*.33;return Math.sin(u*TAU*1.22-phase+i*.67)*(.034*h)+Math.sin(u*TAU*2.42-phase*.69+i*1.71)*(.014*h)+Math.sin(u*TAU*.49+phase*.36+i*2.4)*(.027*h)};
+    function ribbon(i,time){
+      const lp=[{min:.16,max:.34,period:34,phase:.20},{min:1.10,max:1.58,period:47,phase:2.10},{min:.42,max:.80,period:39,phase:4.35},{min:.82,max:1.30,period:56,phase:1.15},{min:.22,max:.52,period:43,phase:5.40}][i];
+      const breathe=.5+.5*Math.sin((time/lp.period)*TAU+lp.phase),eased=breathe*breathe*(3-2*breathe),waveGain=lp.min+(lp.max-lp.min)*eased,blue=i<2;
+      const x0=-w*.22,x1=w*1.22,step=Math.max(6,w/175),yBase=h*(.49+(i-2)*.026),amplitude=h*(.052+(i%3)*.019),thickness=h*(.050+(i%4)*.019),phase=i*1.09,points=[];
+      for(let x=x0;x<=x1+step;x+=step){const u=x/w,center=yBase+wave(x,time,i)*.83+Math.sin(u*TAU*.83-time*.17+phase)*amplitude*.42,width=thickness*(.60+.40*Math.sin(u*TAU*.79-time*.23+phase+1.4)**2);points.push([x,center-width*.5,center+width*.5])}
+      function contour(mix){ctx.beginPath();for(let j=0;j<points.length;j++){const p=points[j],y=p[1]*(1-mix)+p[2]*mix;j?ctx.lineTo(p[0],y):ctx.moveTo(p[0],y)}}
+      function color(alpha){alpha*=waveGain;const g=ctx.createLinearGradient(0,0,w,0);if(blue){g.addColorStop(0,`rgba(39,157,215,${alpha*.88*G})`);g.addColorStop(.38,`rgba(95,222,241,${alpha*G})`);g.addColorStop(.67,`rgba(104,239,215,${alpha*.98*G})`);g.addColorStop(1,`rgba(89,218,133,${alpha*.88*G})`)}else{g.addColorStop(0,`rgba(43,167,175,${alpha*.82*G})`);g.addColorStop(.40,`rgba(80,219,190,${alpha*.92*G})`);g.addColorStop(.70,`rgba(123,239,145,${alpha*G})`);g.addColorStop(1,`rgba(92,216,124,${alpha*.86*G})`)}return g}
+      const layers=22;
+      for(let side=0;side<2;side++)for(let k=0;k<layers;k++){const f=k/(layers-1),inward=.5*Math.pow(f,1.06),mix=side===0?inward:1-inward,alpha=.108*Math.pow(1-f,1.72);ctx.save();contour(mix);ctx.strokeStyle=color(alpha);ctx.lineWidth=Math.max(2.2,h*.0031);ctx.stroke();ctx.restore()}
+      ctx.save();ctx.globalAlpha=.52;for(const mix of [.34,.42,.50,.58,.66]){contour(mix);ctx.strokeStyle=color(.012);ctx.lineWidth=Math.max(3,h*.0046);ctx.stroke()}ctx.restore();
+      for(let side=0;side<2;side++){const edge=side===0?0:1;ctx.save();contour(edge);ctx.filter=`blur(${Math.max(1.8,h*.00225)}px)`;ctx.strokeStyle=color(.095);ctx.lineWidth=Math.max(3.4,h*.0042);ctx.stroke();ctx.restore()}
+      for(let side=0;side<2;side++){const edge=side===0?0:1;ctx.save();contour(edge);ctx.filter=`blur(${Math.max(.7,h*.0009)}px)`;ctx.strokeStyle=color(.205);ctx.lineWidth=Math.max(1.7,h*.0022);ctx.stroke();ctx.restore()}
+    }
+    function draw(){ctx.fillStyle='#030909';ctx.fillRect(0,0,w,h);const ambient=ctx.createRadialGradient(w*.51,h*.51,0,w*.51,h*.51,w*.75);ambient.addColorStop(0,'rgba(5,31,29,.54)');ambient.addColorStop(.55,'rgba(3,14,15,.34)');ambient.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=ambient;ctx.fillRect(0,0,w,h);ctx.save();ctx.globalCompositeOperation='screen';for(let i=0;i<5;i++)ribbon(i,t);const cy=h*.505+Math.sin(t*.26)*h*.017,beam=ctx.createLinearGradient(0,cy-h*.057,0,cy+h*.057);beam.addColorStop(0,'rgba(37,170,204,0)');beam.addColorStop(.48,'rgba(50,181,190,.027)');beam.addColorStop(.5,'rgba(139,239,229,.080)');beam.addColorStop(.52,'rgba(55,191,171,.027)');beam.addColorStop(1,'rgba(38,181,155,0)');ctx.save();ctx.filter=`blur(${Math.max(3.3,h*.0045)}px)`;ctx.fillStyle=beam;ctx.fillRect(0,cy-h*.057,w,h*.114);ctx.restore();ctx.restore()}
+    const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function frame(now){if(!last)last=now;const dt=Math.min((now-last)/1000,.05);last=now;if(!reduced&&visible)t+=dt;draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);
+    document.addEventListener('visibilitychange',()=>{visible=!document.hidden;last=0});
+  })();
+  </script>
+</body>
+</html>

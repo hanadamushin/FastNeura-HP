@@ -39,7 +39,20 @@
     .hero-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 95% 72% at 50% 50%,transparent 24%,rgba(0,0,0,.22) 72%,rgba(0,0,0,.58) 100%)}
     .hero-grain{position:absolute;inset:0;pointer-events:none;opacity:.10;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.16' filter='url(%23n)'/%3E%3C/svg%3E")}
     .hero-inner{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;padding:120px 0 80px}
-    .hero-kicker{width:min(42vw,520px);font-size:13px;letter-spacing:.12em;color:#c6ded3;margin-bottom:20px;text-align:left;text-shadow:0 3px 20px #000b;transform:translateX(clamp(18px,4vw,72px))}
+    .hero-kicker{
+      width:min(42vw,520px);
+      font-size:clamp(28px,3.15vw,50px);
+      font-weight:500;
+      line-height:1;
+      letter-spacing:.04em;
+      color:#fff;
+      margin-bottom:24px;
+      text-align:justify;
+      text-align-last:justify;
+      white-space:nowrap;
+      text-shadow:0 3px 20px #000b;
+      transform:translateX(clamp(60px,8vw,140px));
+    }
     .hero h1{
       margin:0;
       width:min(42vw,520px);
@@ -51,7 +64,7 @@
       line-height:1.48;
       text-align:left;
       text-shadow:0 4px 30px #000c,0 1px 6px #000a;
-      transform:translateX(clamp(18px,4vw,72px));
+      transform:translateX(clamp(60px,8vw,140px));
     }
     .hero h1 span{display:block;white-space:nowrap}
     .hero-bottom{position:absolute;left:0;right:0;bottom:52px;display:flex;justify-content:space-between;gap:32px;align-items:end;border-top:1px solid #ffffff28;padding-top:20px}
@@ -107,6 +120,7 @@
       .site-header{padding:22px 16px}.nav a:not(.contact){display:none}
       .hero-inner{align-items:flex-start;padding-top:110px;padding-bottom:120px}
       .hero-kicker,.hero h1{width:100%;transform:none}
+      .hero-kicker{font-size:clamp(25px,8vw,38px);text-align:left;text-align-last:auto;letter-spacing:.14em}
       .hero h1{font-size:clamp(24px,6.2vw,34px);line-height:1.55}
       .hero h1 span{white-space:normal}
       .hero-bottom{bottom:34px;align-items:start;flex-direction:column;gap:10px}

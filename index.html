@@ -23,8 +23,8 @@
       <canvas id="waves" aria-hidden="true"></canvas>
       <div class="hero-vignette"></div><div class="hero-grain"></div>
       <div class="wrap hero-inner">
-        <div class="hero-kicker">Sync OS</div>
-        <h1><span>人の状態に応答する</span><span>環境知能を</span><span>暮らしと現場へ</span></h1>
+        <div class="hero-kicker"><a href="#sync">Sync OS</a></div>
+        <h1><span>人の状態に応答する</span><span><button class="hero-term" id="environmentIntelligenceButton" type="button" aria-haspopup="dialog" aria-controls="environmentIntelligenceModal">環境知能</button>を</span><span>暮らしと現場へ</span></h1>
         <div class="hero-bottom">
           <p>人間の状態をAIが理解し、環境・デバイス・AIエージェントが自然に適応する。</p>
           <span class="scroll">SCROLL TO EXPLORE</span>
@@ -39,6 +39,15 @@
     <section class="contact-section" id="contact"><div class="wrap"><div class="eyebrow">CONTACT</div><h2>CONTACT</h2><div class="contact-row"><p>弊社にご興味を持っていただきありがとうございます。<br>お気軽にお問い合わせください。</p><a class="contact-link" href="mailto:contact@fastneura.com">Contact us →</a></div></div></section>
   </main>
   <footer class="site-footer"><div class="wrap">© FastNeura Inc.</div></footer>
+
+  <div class="modal-backdrop" id="environmentIntelligenceModal" role="dialog" aria-modal="true" aria-labelledby="environmentIntelligenceTitle" aria-hidden="true">
+    <div class="modal" role="document">
+      <div class="modal-head"><h2 id="environmentIntelligenceTitle">環境知能</h2><button class="modal-close" type="button" aria-label="閉じる">×</button></div>
+      <p>環境知能とは、人の状態や周囲の状況をセンシングし、その情報をもとに空間・デバイス・AIが適切に応答する仕組みです。FastNeuraでは、脳波・心拍などの生体情報から疲労・集中・ストレスなどの内的状態を推定し、人が明示的に操作する前に、環境そのものが自然に支援する世界を目指しています。</p>
+    </div>
+  </div>
+
   <script src="wave.js"></script>
+  <script src="ui.js"></script>
 </body>
 </html>

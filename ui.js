@@ -87,4 +87,65 @@ if(header&&!document.getElementById('mobileMenuToggle')){
   panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))setOpen(false)});
 }
+
+const pageSections=[...document.querySelectorAll('main > section')];
+if(pageSections.length){
+  let navigating=false;
+  let unlockTimer=0;
+  const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sectionTop=section=>Math.round(section.getBoundingClientRect().top+window.scrollY);
+  const nearestSectionIndex=()=>{
+    const y=window.scrollY;
+    let bestIndex=0,bestDistance=Infinity;
+    pageSections.forEach((section,index)=>{
+      const d=Math.abs(sectionTop(section)-y);
+      if(d<bestDistance){bestDistance=d;bestIndex=index}
+    });
+    return bestIndex;
+  };
+  const goToSection=index=>{
+    const clamped=Math.max(0,Math.min(pageSections.length-1,index));
+    navigating=true;
+    clearTimeout(unlockTimer);
+    window.scrollTo({top:sectionTop(pageSections[clamped]),behavior:reducedMotion?'auto':'smooth'});
+    unlockTimer=setTimeout(()=>{navigating=false},reducedMotion?80:780);
+  };
+
+  window.addEventListener('wheel',e=>{
+    if(innerWidth<=900||modal?.classList.contains('open'))return;
+    if(Math.abs(e.deltaY)<12)return;
+    e.preventDefault();
+    if(navigating)return;
+    const current=nearestSectionIndex();
+    goToSection(current+(e.deltaY>0?1:-1));
+  },{passive:false});
+
+  document.addEventListener('keydown',e=>{
+    if(innerWidth<=900||modal?.classList.contains('open'))return;
+    if(['INPUT','TEXTAREA','SELECT','BUTTON'].includes(document.activeElement?.tagName))return;
+    if(e.key==='ArrowDown'||e.key==='PageDown'){
+      e.preventDefault();if(!navigating)goToSection(nearestSectionIndex()+1);
+    }else if(e.key==='ArrowUp'||e.key==='PageUp'){
+      e.preventDefault();if(!navigating)goToSection(nearestSectionIndex()-1);
+    }else if(e.key==='Home'){
+      e.preventDefault();if(!navigating)goToSection(0);
+    }else if(e.key==='End'){
+      e.preventDefault();if(!navigating)goToSection(pageSections.length-1);
+    }
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(link=>{
+    const id=link.getAttribute('href')?.slice(1);
+    if(!id)return;
+    const target=document.getElementById(id);
+    const index=pageSections.indexOf(target);
+    if(index<0)return;
+    link.addEventListener('click',e=>{
+      if(innerWidth<=900)return;
+      e.preventDefault();
+      history.replaceState(null,'','#'+id);
+      goToSection(index);
+    });
+  });
+}
 })();

@@ -1,0 +1,18 @@
+/* Shared continuous wave background across all full-screen sections */
+#waves{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:0!important;pointer-events:none!important;display:block!important}
+body{background:#030909;color:#f4f8f6}
+.site-header,.desktop-orbit-nav,.mobile-menu-panel,.modal-backdrop{z-index:50}
+main,.site-footer{position:relative;z-index:1}
+main>section{position:relative;background:transparent!important;color:#f4f8f6}
+.hero{background:transparent!important}
+.hero-vignette{position:fixed;z-index:0;inset:0;background:radial-gradient(ellipse 95% 72% at 50% 35%,transparent 24%,rgba(0,0,0,.22) 72%,rgba(0,0,0,.58) 100%)}
+.hero-grain{position:fixed;z-index:0}
+.sync-intro,.principles,.about,.service,.partners,.contact-section{background:transparent!important}
+.sync-copy p,.service-intro,.service-card p,.partner span,.contact-row p,.muted,.about p{color:#d7e1dc!important}
+.eyebrow,.num,.about .eyebrow,.about .muted{color:#a8b8b0!important}
+.principle,.principle:last-child,.partners-list,.partner,.contact-row{border-color:#ffffff2b!important}
+.service-grid{background:#ffffff24!important;border-color:#ffffff24!important}
+.service-card{background:rgba(4,10,9,.62)!important;color:#f4f8f6!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.sync-intro>.wrap,.principles>.wrap,.about>.wrap,.service>.wrap,.partners>.wrap,.contact-section>.wrap{position:relative;z-index:2}
+.site-footer{background:rgba(3,9,9,.74)!important;color:#93a59c!important}
+@media(max-width:900px){#waves{height:100svh!important}.hero-vignette,.hero-grain{height:100svh}}

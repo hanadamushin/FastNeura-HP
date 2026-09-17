@@ -15,4 +15,18 @@ main>section{position:relative;background:transparent!important;color:#f4f8f6}
 .service-card{background:rgba(4,10,9,.62)!important;color:#f4f8f6!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .sync-intro>.wrap,.principles>.wrap,.about>.wrap,.service>.wrap,.partners>.wrap,.contact-section>.wrap{position:relative;z-index:2}
 .site-footer{background:rgba(3,9,9,.74)!important;color:#93a59c!important}
-@media(max-width:900px){#waves{height:100svh!important}.hero-vignette,.hero-grain{height:100svh}}
+
+/* Sync OS screen: left narrative, right principles */
+.sync-intro{padding:96px 0 72px!important;overflow:hidden}
+.sync-layout{min-height:calc(100svh - 168px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(56px,7vw,120px);align-items:stretch}
+.sync-left{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.sync-title{font-family:"Avenir Next","Helvetica Neue",Helvetica,"Segoe UI",Arial,sans-serif!important;font-size:clamp(64px,8vw,116px)!important;font-weight:300!important;line-height:.96!important;letter-spacing:-.045em!important;margin:0 0 34px!important;font-kerning:normal;font-feature-settings:"kern" 1}
+.sync-left>h2{font-size:clamp(27px,2.7vw,43px);line-height:1.32;letter-spacing:-.035em;max-width:560px}
+.sync-description{margin:auto 0 0!important;max-width:540px;color:#d7e1dc!important;font-size:clamp(15px,1.35vw,18px)!important;line-height:1.9}
+.sync-principles{min-width:0;display:grid;grid-template-rows:repeat(3,1fr);align-self:stretch;border-top:1px solid #ffffff2b;border-bottom:1px solid #ffffff2b}
+.sync-principles .principle{display:grid;grid-template-columns:54px 1fr;gap:24px;align-items:center;padding:24px 0;border-top:0!important;border-bottom:1px solid #ffffff2b!important}
+.sync-principles .principle:last-child{border-bottom:0!important}
+.sync-principles .principle p{margin:0;font-size:clamp(18px,1.7vw,27px);line-height:1.5;letter-spacing:-.025em;max-width:none}
+.sync-principles .num{align-self:start;padding-top:7px;font-size:12px;letter-spacing:.12em}
+
+@media(max-width:900px){#waves{height:100svh!important}.hero-vignette,.hero-grain{height:100svh}.sync-intro{padding:84px 0!important;overflow:visible}.sync-layout{min-height:auto;grid-template-columns:1fr;gap:48px}.sync-description{margin-top:42px!important}.sync-principles{grid-template-rows:none}.sync-principles .principle{grid-template-columns:48px 1fr;padding:24px 0}.sync-principles .principle p{font-size:clamp(19px,4.8vw,28px)}}

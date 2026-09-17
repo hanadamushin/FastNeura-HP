@@ -88,6 +88,29 @@ if(header&&!document.getElementById('mobileMenuToggle')){
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))setOpen(false)});
 }
 
+const syncSection=document.getElementById('sync');
+const principlesSection=document.querySelector('main > .principles');
+if(syncSection&&principlesSection){
+  const syncWrap=syncSection.querySelector(':scope > .wrap');
+  const syncTitle=syncWrap?.querySelector('.sync-title');
+  const syncCopy=syncWrap?.querySelector('.sync-copy');
+  const syncHeading=syncCopy?.querySelector('h2');
+  const syncDescription=syncCopy?.querySelector('p');
+  const principleItems=[...principlesSection.querySelectorAll('.principle')];
+  if(syncWrap&&syncTitle&&syncHeading&&syncDescription&&principleItems.length){
+    const left=document.createElement('div');
+    left.className='sync-left';
+    const right=document.createElement('div');
+    right.className='sync-principles';
+    left.append(syncTitle,syncHeading,syncDescription);
+    syncDescription.classList.add('sync-description');
+    principleItems.forEach(item=>right.appendChild(item));
+    syncWrap.replaceChildren(left,right);
+    syncWrap.classList.add('sync-layout');
+    principlesSection.remove();
+  }
+}
+
 const pageSections=[...document.querySelectorAll('main > section')];
 if(pageSections.length){
   let navigating=false;

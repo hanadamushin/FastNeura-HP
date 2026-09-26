@@ -94,3 +94,20 @@ main>section{position:relative;background:transparent!important;color:#f4f8f6}
   .partners-list{margin-top:24px!important}
   .partner{grid-template-columns:1fr!important;gap:6px!important;padding:18px 0!important}
 }
+
+
+/* Contact: centered composition over purple wave */
+.contact-section{padding:0!important;display:flex;align-items:center;justify-content:center}
+.contact-section>.wrap{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:88px 0}
+.contact-section>.wrap>.eyebrow{display:none!important}
+.contact-section h2{margin:0 0 28px!important;font-size:clamp(58px,7.4vw,106px)!important;font-weight:400!important;letter-spacing:-.055em!important}
+.contact-row{width:min(760px,100%);display:flex!important;flex-direction:column;align-items:center!important;justify-content:center!important;gap:28px!important;border-top:1px solid rgba(205,132,255,.30)!important;padding-top:30px!important}
+.contact-row p{margin:0!important;max-width:620px;font-size:clamp(16px,1.4vw,19px)!important;line-height:1.85!important;color:#ddd6e6!important;text-align:center}
+.contact-link{display:inline-flex;align-items:center;justify-content:center;min-width:180px;padding:13px 24px!important;border:1px solid rgba(205,132,255,.58)!important;border-radius:999px!important;background:rgba(124,74,255,.16);font-size:17px!important;line-height:1.2;transition:transform .25s ease,border-color .25s ease,background .25s ease}
+.contact-link:hover{transform:translateY(-2px);border-color:rgba(220,164,255,.90)!important;background:rgba(124,74,255,.28)}
+@media(max-width:900px){
+  .contact-section>.wrap{padding:84px 0}
+  .contact-section h2{margin-bottom:22px!important}
+  .contact-row{gap:24px!important;padding-top:26px!important}
+  .contact-row p{text-align:left}
+}

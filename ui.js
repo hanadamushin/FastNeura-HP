@@ -25,7 +25,7 @@ if(!document.querySelector('.desktop-orbit-nav')){
 const desktopOrbit=document.querySelector('.desktop-orbit-nav');
 if(desktopOrbit){
   const proximityStyle=document.createElement('style');
-  proximityStyle.textContent='.desktop-orbit-nav.is-open .orbit-link{opacity:1;pointer-events:auto}.desktop-orbit-nav.is-open .orbit-toggle{background:rgba(9,23,18,.88);border-color:#ffffff52}.desktop-orbit-nav.is-open .orbit-toggle::before{transform:rotate(45deg)}.desktop-orbit-nav.is-open .orbit-toggle::after{transform:rotate(-45deg)}.desktop-orbit-nav.is-open .orbit-toggle span{opacity:0}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(1){transform:translate(72px,-126px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(2){transform:translate(112px,-66px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(3){transform:translate(128px,0) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(4){transform:translate(112px,66px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(5){transform:translate(72px,126px) scale(1)}';
+  proximityStyle.textContent='.desktop-orbit-nav.is-open .orbit-link{opacity:1;pointer-events:auto}.desktop-orbit-nav.is-open .orbit-toggle{background:rgba(9,23,18,.88);border-color:#ffffff52}.desktop-orbit-nav.is-open .orbit-toggle::before{transform:rotate(45deg)}.desktop-orbit-nav.is-open .orbit-toggle::after{transform:rotate(-45deg)}.desktop-orbit-nav.is-open .orbit-toggle span{opacity:0}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(1){transform:translate(88px,-150px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(2){transform:translate(138px,-80px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(3){transform:translate(158px,0) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(4){transform:translate(138px,80px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(5){transform:translate(88px,150px) scale(1)}';
   document.head.appendChild(proximityStyle);
 
   const finePointer=matchMedia('(min-width:901px) and (hover:hover) and (pointer:fine)');
@@ -53,8 +53,8 @@ if(desktopOrbit){
     if(!finePointer.matches)return;
     const distance=pointerDistanceFromToggle(e);
     const onMenuItem=Boolean(e.target.closest?.('.desktop-orbit-nav .orbit-link'));
-    if(distance<=205||onMenuItem){
-      if(desktopOrbit.classList.contains('is-open')||distance<=42||desktopOrbit.matches(':hover'))setOrbitOpen(true);
+    if(distance<=245||onMenuItem){
+      if(desktopOrbit.classList.contains('is-open')||distance<=52||desktopOrbit.matches(':hover'))setOrbitOpen(true);
     }else if(desktopOrbit.classList.contains('is-open')){
       scheduleClose();
     }

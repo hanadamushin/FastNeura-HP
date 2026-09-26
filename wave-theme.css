@@ -16,6 +16,18 @@ main>section{position:relative;background:transparent!important;color:#f4f8f6}
 .sync-intro>.wrap,.principles>.wrap,.about>.wrap,.service>.wrap,.partners>.wrap,.contact-section>.wrap{position:relative;z-index:2}
 .site-footer{background:rgba(3,9,9,.74)!important;color:#93a59c!important}
 
+/* Desktop orbit menu colors mirror each section's wave theme */
+.desktop-orbit-nav .orbit-link:nth-of-type(1){background:rgba(35,112,226,.38);border-color:rgba(110,195,255,.78);box-shadow:0 10px 35px rgba(28,112,255,.18)}
+.desktop-orbit-nav .orbit-link:nth-of-type(2){background:rgba(236,244,248,.18);border-color:rgba(236,247,252,.82);box-shadow:0 10px 35px rgba(230,242,248,.10)}
+.desktop-orbit-nav .orbit-link:nth-of-type(3){background:rgba(232,161,24,.34);border-color:rgba(255,224,112,.82);box-shadow:0 10px 35px rgba(255,190,45,.16)}
+.desktop-orbit-nav .orbit-link:nth-of-type(4){background:rgba(206,39,58,.38);border-color:rgba(255,116,112,.82);box-shadow:0 10px 35px rgba(239,55,72,.17)}
+.desktop-orbit-nav .orbit-link:nth-of-type(5){background:rgba(124,74,255,.38);border-color:rgba(205,132,255,.82);box-shadow:0 10px 35px rgba(169,92,255,.18)}
+.desktop-orbit-nav .orbit-link:nth-of-type(1):hover,.desktop-orbit-nav .orbit-link:nth-of-type(1):focus-visible{background:rgba(38,126,245,.72);border-color:#78cfff}
+.desktop-orbit-nav .orbit-link:nth-of-type(2):hover,.desktop-orbit-nav .orbit-link:nth-of-type(2):focus-visible{background:rgba(238,247,251,.86);border-color:#fff;color:#0b1214}
+.desktop-orbit-nav .orbit-link:nth-of-type(3):hover,.desktop-orbit-nav .orbit-link:nth-of-type(3):focus-visible{background:rgba(236,166,29,.78);border-color:#ffe070;color:#161006}
+.desktop-orbit-nav .orbit-link:nth-of-type(4):hover,.desktop-orbit-nav .orbit-link:nth-of-type(4):focus-visible{background:rgba(218,49,67,.76);border-color:#ff7a76}
+.desktop-orbit-nav .orbit-link:nth-of-type(5):hover,.desktop-orbit-nav .orbit-link:nth-of-type(5):focus-visible{background:rgba(139,79,244,.76);border-color:#d9a0ff}
+
 /* Sync OS screen: left narrative, right principles */
 .sync-intro{padding:96px 0 72px!important;overflow:hidden}
 .sync-layout{min-height:calc(100svh - 168px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(56px,7vw,120px);align-items:stretch}

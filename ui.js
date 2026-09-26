@@ -18,7 +18,7 @@ if(!document.querySelector('.desktop-orbit-nav')){
   const orbit=document.createElement('nav');
   orbit.className='desktop-orbit-nav';
   orbit.setAttribute('aria-label','Desktop navigation');
-  orbit.innerHTML='<div class="orbit-toggle" aria-hidden="true"><span></span></div><a class="orbit-link" href="#sync">Sync<br>OS</a><a class="orbit-link" href="#about">About<br>us</a><a class="orbit-link" href="#service">Service</a><a class="orbit-link" href="#partners">Partners</a><a class="orbit-link" href="#contact">Contact</a>';
+  orbit.innerHTML='<div class="orbit-toggle" aria-hidden="true"><span></span></div><a class="orbit-link" href="#about">About<br>us</a><a class="orbit-link" href="#service">Service</a><a class="orbit-link" href="#sync">Sync<br>OS</a><a class="orbit-link" href="#partners">Partners</a><a class="orbit-link" href="#contact">Contact</a>';
   document.body.appendChild(orbit);
 }
 
@@ -79,7 +79,7 @@ if(header&&!document.getElementById('mobileMenuToggle')){
   panel.className='mobile-menu-panel';
   panel.id='mobileMenuPanel';
   panel.setAttribute('aria-label','Mobile navigation');
-  panel.innerHTML='<a href="#sync">Sync OS</a><a href="#about">About us</a><a href="#service">Service</a><a href="#partners">Partners</a><a href="#contact">Contact</a>';
+  panel.innerHTML='<a href="#about">About us</a><a href="#service">Service</a><a href="#sync">Sync OS</a><a href="#partners">Partners</a><a href="#contact">Contact</a>';
   document.body.appendChild(panel);
 
   const setOpen=open=>{toggle.classList.toggle('is-open',open);panel.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'メニューを閉じる':'メニューを開く')};

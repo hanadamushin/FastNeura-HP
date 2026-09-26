@@ -111,3 +111,42 @@ main>section{position:relative;background:transparent!important;color:#f4f8f6}
   .contact-row{gap:24px!important;padding-top:26px!important}
   .contact-row p{text-align:left}
 }
+
+
+/* Hero scroll cue */
+.scroll-cue{
+  position:absolute;
+  left:50%;
+  bottom:24px;
+  width:24px;
+  height:52px;
+  transform:translateX(-50%);
+  display:flex;
+  justify-content:center;
+  pointer-events:none;
+  opacity:.78
+}
+.scroll-cue::before{
+  content:"";
+  position:absolute;
+  top:0;
+  width:1px;
+  height:32px;
+  background:linear-gradient(to bottom,rgba(255,255,255,.08),rgba(255,255,255,.72));
+}
+.scroll-cue span{
+  position:absolute;
+  bottom:2px;
+  width:10px;
+  height:10px;
+  border-right:1px solid rgba(255,255,255,.82);
+  border-bottom:1px solid rgba(255,255,255,.82);
+  transform:rotate(45deg);
+  animation:scrollCue 1.9s ease-in-out infinite
+}
+@keyframes scrollCue{
+  0%,100%{transform:translateY(0) rotate(45deg);opacity:.45}
+  50%{transform:translateY(6px) rotate(45deg);opacity:1}
+}
+@media(prefers-reduced-motion:reduce){.scroll-cue span{animation:none}}
+@media(max-width:600px){.scroll-cue{bottom:20px}}

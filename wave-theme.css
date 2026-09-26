@@ -72,3 +72,25 @@ main>section{position:relative;background:transparent!important;color:#f4f8f6}
   .service-card{min-height:auto!important;padding:24px!important}
   .service-card h3{margin:28px 0 12px!important}
 }
+
+
+/* Achievements: centered composition over red wave */
+.partners{padding:0!important;display:flex;align-items:center;justify-content:center}
+.partners>.wrap{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:82px 0}
+.partners .section-head{display:block;margin:0 0 20px;text-align:center}
+.partners .section-head .eyebrow{display:none!important}
+.partners .section-head h2{font-size:clamp(54px,7vw,100px);font-weight:400;letter-spacing:-.055em;margin:0}
+.partners .lead{max-width:800px!important;margin:0 auto 36px!important;text-align:center;font-size:clamp(16px,1.4vw,19px)!important;line-height:1.8;color:#e0d9d9!important}
+.partners-list{margin:0!important;border:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.partner{display:flex!important;flex-direction:column;justify-content:flex-end;gap:12px!important;min-height:150px;padding:24px 26px!important;border:1px solid rgba(255,116,112,.30)!important;border-radius:20px;background:linear-gradient(180deg,rgba(34,8,11,.55),rgba(8,9,9,.64));box-shadow:0 16px 42px rgba(0,0,0,.17),inset 0 1px 0 rgba(255,255,255,.035);transition:transform .3s ease,border-color .3s ease,background .3s ease}
+.partner:hover{transform:translateY(-4px);border-color:rgba(255,122,118,.62)!important;background:linear-gradient(180deg,rgba(49,10,15,.66),rgba(8,9,9,.70))}
+.partner strong{font-size:clamp(18px,1.5vw,22px)!important;font-weight:560;letter-spacing:-.02em}
+.partner span{font-size:14px!important;line-height:1.7!important;color:#d9d2d2!important}
+.partner:last-child:nth-child(odd){grid-column:1/-1;min-height:118px}
+@media(max-width:900px){
+  .partners>.wrap{padding:84px 0}
+  .partners .section-head{margin-bottom:18px}
+  .partners .lead{text-align:left;margin-bottom:28px!important}
+  .partners-list{grid-template-columns:1fr}
+  .partner,.partner:last-child:nth-child(odd){grid-column:auto;min-height:auto;padding:22px!important}
+}

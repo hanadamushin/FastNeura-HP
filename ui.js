@@ -13,19 +13,31 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal?.classList.co
 const header=document.querySelector('.site-header');
 const oldNav=header?.querySelector('.nav');
 if(oldNav)oldNav.style.display='none';
+// Use the HTML navigation on both pages as the single source of destinations.
+const navigationLinks=[...(oldNav?.querySelectorAll('a')||[])];
+const renderNavigation=className=>navigationLinks.map(source=>{
+  const link=source.cloneNode(true);
+  link.className=className;
+  return link.outerHTML;
+}).join('');
 
 if(!document.querySelector('.desktop-orbit-nav')){
   const orbit=document.createElement('nav');
   orbit.className='desktop-orbit-nav';
   orbit.setAttribute('aria-label','Desktop navigation');
-  orbit.innerHTML='<div class="orbit-toggle" aria-hidden="true"><span></span></div><a class="orbit-link" href="#about">About<br>us</a><a class="orbit-link" href="#service">Service</a><a class="orbit-link" href="#sync">Sync<br>OS</a><a class="orbit-link" href="#partners">Partners</a><a class="orbit-link" href="#contact">Contact</a>';
+  orbit.innerHTML='<button class="orbit-toggle" type="button" aria-label="メニュー" aria-expanded="false"><span></span></button>'+renderNavigation('orbit-link');
   document.body.appendChild(orbit);
 }
 
 const desktopOrbit=document.querySelector('.desktop-orbit-nav');
 if(desktopOrbit){
   const proximityStyle=document.createElement('style');
-  proximityStyle.textContent='.desktop-orbit-nav.is-open .orbit-link{opacity:1;pointer-events:auto}.desktop-orbit-nav.is-open .orbit-toggle{background:rgba(9,23,18,.88);border-color:#ffffff52}.desktop-orbit-nav.is-open .orbit-toggle::before{transform:rotate(45deg)}.desktop-orbit-nav.is-open .orbit-toggle::after{transform:rotate(-45deg)}.desktop-orbit-nav.is-open .orbit-toggle span{opacity:0}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(1){transform:translate(88px,-150px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(2){transform:translate(138px,-80px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(3){transform:translate(158px,0) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(4){transform:translate(138px,80px) scale(1)}.desktop-orbit-nav.is-open .orbit-link:nth-of-type(5){transform:translate(88px,150px) scale(1)}';
+  proximityStyle.textContent='.desktop-orbit-nav.is-open .orbit-link{opacity:1;pointer-events:auto}.desktop-orbit-nav.is-open .orbit-toggle{background:rgba(9,23,18,.88);border-color:#ffffff52}.desktop-orbit-nav.is-open .orbit-toggle::before{transform:rotate(45deg)}.desktop-orbit-nav.is-open .orbit-toggle::after{transform:rotate(-45deg)}.desktop-orbit-nav.is-open .orbit-toggle span{opacity:0}';
+  const orbitPositions=[[72,-210],[130,-126],[158,-42],[158,42],[130,126],[72,210]];
+  orbitPositions.forEach(([x,y],index)=>{
+    const selectors=['.is-open',':hover',':focus-within'].map(state=>`.desktop-orbit-nav${state} .orbit-link:nth-of-type(${index+1})`).join(',');
+    proximityStyle.textContent+=`${selectors}{transform:translate(${x}px,${y}px) scale(1)}`;
+  });
   document.head.appendChild(proximityStyle);
 
   const finePointer=matchMedia('(min-width:901px) and (hover:hover) and (pointer:fine)');
@@ -33,10 +45,11 @@ if(desktopOrbit){
   const setOrbitOpen=open=>{
     clearTimeout(closeTimer);
     desktopOrbit.classList.toggle('is-open',open);
+    desktopOrbit.querySelector('.orbit-toggle')?.setAttribute('aria-expanded',String(open));
   };
   const scheduleClose=()=>{
     clearTimeout(closeTimer);
-    closeTimer=setTimeout(()=>desktopOrbit.classList.remove('is-open'),180);
+    closeTimer=setTimeout(()=>{if(!desktopOrbit.contains(document.activeElement))setOrbitOpen(false)},180);
   };
   const pointerDistanceFromToggle=e=>{
     const toggle=desktopOrbit.querySelector('.orbit-toggle');
@@ -61,7 +74,8 @@ if(desktopOrbit){
   },{passive:true});
 
   desktopOrbit.addEventListener('focusin',()=>setOrbitOpen(true));
-  desktopOrbit.addEventListener('focusout',()=>setTimeout(()=>{if(!desktopOrbit.contains(document.activeElement))desktopOrbit.classList.remove('is-open')},0));
+  desktopOrbit.addEventListener('focusout',()=>setTimeout(()=>{if(!desktopOrbit.contains(document.activeElement))setOrbitOpen(false)},0));
+  desktopOrbit.querySelector('.orbit-toggle')?.addEventListener('click',()=>setOrbitOpen(true));
 }
 
 if(header&&!document.getElementById('mobileMenuToggle')){
@@ -79,10 +93,11 @@ if(header&&!document.getElementById('mobileMenuToggle')){
   panel.className='mobile-menu-panel';
   panel.id='mobileMenuPanel';
   panel.setAttribute('aria-label','Mobile navigation');
-  panel.innerHTML='<a href="#about">About us</a><a href="#service">Service</a><a href="#sync">Sync OS</a><a href="#partners">Partners</a><a href="#contact">Contact</a>';
+  panel.innerHTML=renderNavigation('');
+  panel.inert=true;
   document.body.appendChild(panel);
 
-  const setOpen=open=>{toggle.classList.toggle('is-open',open);panel.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'メニューを閉じる':'メニューを開く')};
+  const setOpen=open=>{toggle.classList.toggle('is-open',open);panel.classList.toggle('open',open);panel.inert=!open;toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'メニューを閉じる':'メニューを開く')};
   toggle.addEventListener('click',()=>setOpen(!panel.classList.contains('open')));
   panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))setOpen(false)});
@@ -112,7 +127,7 @@ if(syncSection&&principlesSection){
 }
 
 const pageSections=[...document.querySelectorAll('main > section')];
-if(pageSections.length){
+if(pageSections.length&&document.body.dataset.page!=='members'){
   let navigating=false;
   let unlockTimer=0;
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;

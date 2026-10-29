@@ -1,0 +1,38 @@
+.members-document{scroll-snap-type:none;scroll-padding:24px}
+body[data-page="members"]{background:#030909;color:#f4f8f6;overscroll-behavior-y:auto}
+.members-main{isolation:isolate;overflow:hidden;min-height:calc(100svh - 80px);padding:150px 0 72px}
+.members-main::before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse 56% 45% at 94% 12%,#16493666,transparent 75%),radial-gradient(ellipse 40% 40% at 85% 75%,#12323455,transparent 75%)}
+.members-main>.wrap{max-width:1000px}
+.back-link{display:inline-flex;align-items:center;gap:14px;color:#a8b8b0;font-size:13px}
+.back-link:hover{color:#84edb8}
+.members-heading{position:relative;padding:64px 0 70px}
+.members-eyebrow{margin:0 0 22px;color:#94b6a6;font-size:10px;letter-spacing:.18em;line-height:1.8}
+.members-heading h1{margin:0;font-size:clamp(72px,10vw,132px);font-weight:400;line-height:1;letter-spacing:-.065em}
+.heading-dot{color:#84edb8}
+.members-lead{font-size:clamp(25px,3.4vw,42px);font-weight:400;letter-spacing:.015em;line-height:1.55;margin:40px 0 24px}
+.members-intro{color:#a8b8b0;font-size:15px;line-height:1.95;margin:0}
+.member-list{padding:0;min-height:0;scroll-snap-align:none}
+.member-profile{display:grid;grid-template-columns:280px 1fr;align-items:center;gap:clamp(32px,5vw,72px);border-top:1px solid #84edb840;border-bottom:1px solid #ffffff24;padding:40px 0}
+.member-monogram{position:relative;isolation:isolate;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 75% 20%,#285b48aa,transparent 70%),#0c1914;border:1px solid #84edb82b}
+.member-monogram::before,.member-monogram::after{content:"";position:absolute;z-index:-1;width:110%;height:65%;border:1px solid #84edb82b;border-radius:50%;transform:rotate(-35deg)}
+.member-monogram::after{width:75%;height:100%;transform:rotate(35deg)}
+.member-monogram>span:first-child{font-size:72px;font-weight:300;letter-spacing:-.06em;color:#bfe5d3;line-height:1.1}
+.monogram-caption{position:absolute;bottom:24px;font-size:9px;letter-spacing:.24em;color:#94b6a6}
+.member-role{margin:0 0 24px;color:#84edb8;font-size:12px;letter-spacing:.16em}
+.member-details h2{font-size:clamp(28px,3.2vw,42px);font-weight:400;letter-spacing:.1em;line-height:1.5}
+.member-name-en{margin:10px 0 0;font-size:16px;letter-spacing:.035em;color:#a8b8b0}
+.members-contact{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:36px;margin-top:24px}
+.members-contact p{margin:0;color:#a8b8b0;font-size:13px}
+.members-contact a{display:flex;align-items:center;gap:36px;font-size:20px;border-bottom:1px solid #84edb880;padding:0 0 8px;white-space:nowrap}
+.members-contact a:hover{color:#84edb8}
+.members-footer{display:flex;justify-content:space-between;align-items:center;gap:20px;max-width:1000px}
+body[data-page="members"] .site-footer{background:#030909!important;padding:28px 0 36px}
+.members-footer a{color:#a8b8b0;letter-spacing:.02em}
+.members-footer a:hover{color:#84edb8}
+.skip-link{position:fixed;left:20px;top:12px;z-index:100;padding:10px 18px;background:#84edb8;color:#030909;transform:translateY(-160%)}
+.skip-link:focus{transform:none}
+body[data-page="members"] a:focus-visible,body[data-page="members"] button:focus-visible{outline:2px solid #84edb8;outline-offset:6px}
+@media(min-width:901px){.members-main>.wrap,.members-footer{width:min(calc(100% - 260px),1000px)}}
+@media(max-width:900px){.members-main{padding-top:112px}.members-heading{padding:44px 0 48px}}
+@media(max-width:600px){.members-main{padding-bottom:48px}.members-heading h1{font-size:clamp(56px,17vw,88px)}.members-lead{margin-top:30px}.members-intro{font-size:14px}.desktop-break{display:none}.member-profile{grid-template-columns:1fr;gap:28px;padding:28px 0 36px}.member-monogram{width:100%;max-width:340px}.member-role{margin-bottom:12px}.members-contact{flex-direction:column;align-items:flex-start;gap:20px}.members-footer{align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){.members-document{scroll-behavior:auto}}

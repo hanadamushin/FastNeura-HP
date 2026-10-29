@@ -1,0 +1,103 @@
+name: Deploy Xserver preview
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: xserver-preview
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SSH_HOST: sv16386.xserver.jp
+      SSH_USER: hanadamushin
+      SSH_PORT: '10022'
+      SSH_KEY: ${{ secrets.XSERVER_SSH_KEY }}
+      HOST_FINGERPRINT: 'SHA256:L8AjkIahe5Qq+X/bO+uw87YHdbSwVvloivYdmZ7ia4k'
+    steps:
+      - name: Check out site
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Prepare site files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/site"
+          for file in index.html style.css ui.js wave-theme.css wave.js; do
+            test -s "$file"
+            test ! -L "$file"
+            install -m 644 "$file" "$RUNNER_TEMP/site/$file"
+          done
+          printf '%s\n' 'Header set X-Robots-Tag "noindex, nofollow"' > "$RUNNER_TEMP/site/.htaccess"
+
+      - name: Verify server identity and configure SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$SSH_KEY" || { echo "::error::XSERVER_SSH_KEY is missing"; exit 1; }
+          [[ "$HOST_FINGERPRINT" =~ ^SHA256:[A-Za-z0-9+/]+$ ]] || { echo "::error::Set XSERVER_HOST_FINGERPRINT to the ED25519 SHA256 fingerprint from the Xserver panel"; exit 1; }
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+          printf '%s\n' "$SSH_KEY" | tr -d '\r' > "$HOME/.ssh/xserver_preview"
+          chmod 600 "$HOME/.ssh/xserver_preview"
+          ssh-keygen -y -P '' -f "$HOME/.ssh/xserver_preview" > /dev/null
+          ssh-keyscan -T 15 -p "$SSH_PORT" -t ed25519 "$SSH_HOST" > "$RUNNER_TEMP/xserver_host_key"
+          test -s "$RUNNER_TEMP/xserver_host_key"
+          actual="$(ssh-keygen -lf "$RUNNER_TEMP/xserver_host_key" -E sha256 | awk '{print $2}' | sort -u)"
+          test "$actual" = "$HOST_FINGERPRINT" || { echo "::error::Server fingerprint does not match the Xserver panel"; exit 1; }
+          install -m 600 "$RUNNER_TEMP/xserver_host_key" "$HOME/.ssh/known_hosts"
+          cat > "$HOME/.ssh/config" <<EOF
+          Host xserver-preview
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
+            IdentityFile ~/.ssh/xserver_preview
+            IdentitiesOnly yes
+            BatchMode yes
+            StrictHostKeyChecking yes
+            HostKeyAlgorithms ssh-ed25519
+            UserKnownHostsFile ~/.ssh/known_hosts
+            ConnectTimeout 20
+          EOF
+          chmod 600 "$HOME/.ssh/config"
+
+      - name: Back up preview and upload site
+        shell: bash
+        run: |
+          set -euo pipefail
+          ssh xserver-preview 'bash -se' <<'REMOTE'
+          set -euo pipefail
+          parent="$HOME/hanadamushin.xsrv.jp/public_html"
+          test -d "$parent"
+          test "$(readlink -f "$parent")" = "$parent"
+          target="$parent/fastneura-preview"
+          test ! -L "$target"
+          if [ -e "$target" ]; then
+            test -d "$target"
+            if find "$target" -type l -print -quit | grep -q .; then
+              echo "Preview contains symlinks; refusing upload"
+              exit 1
+            fi
+            backup="$HOME/.fastneura-preview-backups"
+            test ! -L "$backup"
+            mkdir -p "$backup"
+            chmod 700 "$backup"
+            umask 077
+            tar -czf "$backup/preview-$(date -u +%Y%m%dT%H%M%S)-$$.tar.gz" -C "$parent" fastneura-preview
+          fi
+          mkdir -p "$target"
+          chmod 755 "$target"
+          REMOTE
+          for file in index.html style.css ui.js wave-theme.css wave.js .htaccess; do
+            scp "$RUNNER_TEMP/site/$file" "xserver-preview:hanadamushin.xsrv.jp/public_html/fastneura-preview/$file"
+          done
+          printf '%s\n' 'Uploaded preview files. Check https://hanadamushin.xsrv.jp/fastneura-preview/ in a browser.' >> "$GITHUB_STEP_SUMMARY"

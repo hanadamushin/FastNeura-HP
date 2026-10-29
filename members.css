@@ -1,8 +1,11 @@
 .members-document{scroll-snap-type:y mandatory;scroll-padding:0}
 body[data-page="members"]{background:#030909;color:#f4f8f6;overscroll-behavior-y:auto}
 .members-main{isolation:isolate}
+/* Anchor and clip each background to its own scroll screen. */
+.members-main>section{position:relative;isolation:isolate;overflow:hidden}
+.members-main>section>.wrap,.members-main>section>.site-footer{position:relative;z-index:1}
 .members-intro-screen{isolation:isolate;padding:150px 0 56px;background:#030909}
-.members-intro-screen::before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse 56% 45% at 94% 12%,#16493666,transparent 75%),radial-gradient(ellipse 40% 40% at 85% 75%,#12323455,transparent 75%)}
+.members-intro-screen::before{content:"";position:absolute;z-index:0;inset:0;pointer-events:none;background:radial-gradient(ellipse 56% 45% at 94% 12%,#16493666,transparent 75%),radial-gradient(ellipse 40% 40% at 85% 75%,#12323455,transparent 75%)}
 .members-main .wrap{max-width:1000px}
 .back-link{display:inline-flex;align-items:center;gap:14px;color:#a8b8b0;font-size:13px}
 .back-link:hover{color:#84edb8}
@@ -12,10 +15,10 @@ body[data-page="members"]{background:#030909;color:#f4f8f6;overscroll-behavior-y
 .heading-dot{color:#84edb8}
 .members-lead{font-size:clamp(25px,3.4vw,42px);font-weight:400;letter-spacing:.015em;line-height:1.55;margin:40px 0 24px}
 .members-intro{color:#a8b8b0;font-size:15px;line-height:1.95;margin:0}
-.members-next{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:24px;color:#a8b8b0;font-size:11px;letter-spacing:.12em;white-space:nowrap}
+.members-next{position:absolute;z-index:1;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:24px;color:#a8b8b0;font-size:11px;letter-spacing:.12em;white-space:nowrap}
 .members-next:hover{color:#84edb8}
 .member-ink-screen{isolation:isolate;display:flex;flex-direction:column;justify-content:center;padding:64px 0;color:#222924;background:#eee9df}
-.member-ink-screen::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:url('ceo-ink-background.png') center/cover no-repeat}
+.member-ink-screen::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:url('ceo-ink-background.png') center/cover no-repeat}
 .member-ink-content{flex:1;display:flex;flex-direction:column;justify-content:center;padding:36px 0}
 .member-profile{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:clamp(40px,7vw,100px);padding:0}
 .member-photo{display:block;width:100%;max-width:min(480px,calc(100svh - 140px));height:auto;aspect-ratio:1;object-fit:cover;mix-blend-mode:multiply}

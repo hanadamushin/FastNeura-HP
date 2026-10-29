@@ -33,7 +33,7 @@ const desktopOrbit=document.querySelector('.desktop-orbit-nav');
 if(desktopOrbit){
   const proximityStyle=document.createElement('style');
   proximityStyle.textContent='.desktop-orbit-nav.is-open .orbit-link{opacity:1;pointer-events:auto}.desktop-orbit-nav.is-open .orbit-toggle{background:rgba(9,23,18,.88);border-color:#ffffff52}.desktop-orbit-nav.is-open .orbit-toggle::before{transform:rotate(45deg)}.desktop-orbit-nav.is-open .orbit-toggle::after{transform:rotate(-45deg)}.desktop-orbit-nav.is-open .orbit-toggle span{opacity:0}';
-  const orbitPositions=[[72,-210],[130,-126],[158,-42],[158,42],[130,126],[72,210]];
+  const orbitPositions=navigationLinks.length===1?[[114,0]]:[[72,-210],[130,-126],[158,-42],[158,42],[130,126],[72,210]];
   orbitPositions.forEach(([x,y],index)=>{
     const selectors=['.is-open',':hover',':focus-within'].map(state=>`.desktop-orbit-nav${state} .orbit-link:nth-of-type(${index+1})`).join(',');
     proximityStyle.textContent+=`${selectors}{transform:translate(${x}px,${y}px) scale(1)}`;

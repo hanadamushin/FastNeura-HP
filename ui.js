@@ -127,6 +127,31 @@ if(syncSection&&principlesSection){
 }
 
 const pageSections=[...document.querySelectorAll('main > section')];
+// Reveal each member screen on entry, including when scrolling back up.
+if(document.body.dataset.page==='members'&&'IntersectionObserver' in window){
+  const revealGroups=[
+    ['#members','.members-eyebrow, h1, .members-lead, .members-intro'],
+    ['#ceo','.member-photo, .member-role, h2, .member-name-en'],
+    ['#members-contact','.members-eyebrow, h2, .members-contact, .site-footer']
+  ];
+  const revealObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.intersectionRatio>=.22)entry.target.classList.add('is-revealed');
+      else if(entry.intersectionRatio<=.02)entry.target.classList.remove('is-revealed');
+    });
+  },{threshold:[0,.02,.22]});
+  revealGroups.forEach(([selector,targets])=>{
+    const section=document.querySelector(selector);
+    if(!section)return;
+    section.querySelectorAll(targets).forEach((element,index)=>{
+      element.classList.add('reveal-item');
+      element.style.setProperty('--reveal-delay',`${index*85}ms`);
+    });
+    section.classList.add('reveal-ready');
+    section.addEventListener('focusin',()=>section.classList.add('is-revealed'));
+    revealObserver.observe(section);
+  });
+}
 if(pageSections.length){
   let navigating=false;
   let unlockTimer=0;

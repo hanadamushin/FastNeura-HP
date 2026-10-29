@@ -20,7 +20,7 @@ jobs:
       SSH_USER: hanadamushin
       SSH_PORT: '10022'
       SSH_KEY: ${{ secrets.XSERVER_SSH_KEY }}
-      HOST_FINGERPRINT: ${{ secrets.XSERVER_HOST_FINGERPRINT }}
+      HOST_FINGERPRINT: 'SHA256:L8AjkIahe5Qq+X/bO+uw87YHdbSwVvloivYdmZ7ia4k'
     steps:
       - name: Check out site
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

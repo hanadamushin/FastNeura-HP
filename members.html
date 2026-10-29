@@ -6,7 +6,7 @@
   <meta name="description" content="FastNeuraのメンバー紹介。CEO 水口 成寛（Nayuta Mizuguchi）。神経科学とAIをつなぎ、人の状態に応答する環境知能を暮らしと現場へ。">
   <title>Members | FastNeura</title>
   <link rel="stylesheet" href="style.css?v=20261030-1">
-  <link rel="stylesheet" href="members.css?v=20261030-2">
+  <link rel="stylesheet" href="members.css?v=20261030-3">
 </head>
 <body data-page="members">
   <a class="skip-link" href="#members">メンバー紹介へ移動</a>
@@ -17,16 +17,21 @@
       <a href="index.html#top">Home</a>
     </nav>
   </header>
-  <main id="members" class="members-main">
-    <div class="wrap">
+  <main class="members-main">
+    <section id="members" class="members-intro-screen" aria-labelledby="members-title">
+      <div class="wrap">
       <a class="back-link" href="index.html#top"><span aria-hidden="true">←</span> Home</a>
       <div class="members-heading">
         <p class="members-eyebrow">THE PEOPLE BEHIND FASTNEURA</p>
-        <h1>Members<span class="heading-dot" aria-hidden="true">.</span></h1>
+        <h1 id="members-title">Members<span class="heading-dot" aria-hidden="true">.</span></h1>
         <p class="members-lead">神経科学とAIをつなぎ、<br>人の可能性をひらく。</p>
         <p class="members-intro">人の状態に応答する環境知能を、暮らしと現場へ。<br class="desktop-break">FastNeuraは、その実現に取り組んでいます。</p>
       </div>
-      <section class="member-list" aria-label="メンバー紹介">
+      </div>
+      <a class="members-next" href="#ceo" aria-label="CEOの紹介へ">Meet our CEO <span aria-hidden="true">↓</span></a>
+    </section>
+    <section id="ceo" class="member-ink-screen" aria-labelledby="nayuta-name">
+      <div class="wrap member-ink-content">
         <article class="member-profile" aria-labelledby="nayuta-name">
           <img class="member-photo" src="nayuta-mizuguchi.png" width="512" height="512" alt="水口 成寛（Nayuta Mizuguchi）のポートレート" decoding="async">
           <div class="member-details">
@@ -35,16 +40,16 @@
             <p class="member-name-en" lang="en">Nayuta Mizuguchi</p>
           </div>
         </article>
-      </section>
       <div class="members-contact">
         <p>共同研究・開発や事業に関するお問い合わせ</p>
         <a href="mailto:contact@fastneura.com">Contact us <span aria-hidden="true">↗</span></a>
       </div>
-    </div>
-  </main>
-  <footer class="site-footer">
+      </div>
+      <footer class="site-footer">
     <div class="wrap members-footer"><span>© FastNeura Inc.</span><a href="index.html#top">Back to Home <span aria-hidden="true">↗</span></a></div>
-  </footer>
-  <script src="ui.js?v=20261030-2"></script>
+      </footer>
+    </section>
+  </main>
+  <script src="ui.js?v=20261030-3"></script>
 </body>
 </html>

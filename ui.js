@@ -127,7 +127,7 @@ if(syncSection&&principlesSection){
 }
 
 const pageSections=[...document.querySelectorAll('main > section')];
-if(pageSections.length&&document.body.dataset.page!=='members'){
+if(pageSections.length){
   let navigating=false;
   let unlockTimer=0;
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;

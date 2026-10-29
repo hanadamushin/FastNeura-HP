@@ -11,7 +11,7 @@
 Repository Settings → Secrets and variables → Actions に登録する。
 
 - XSERVER_SSH_KEY: Xserverで作った専用秘密鍵の全文（チャットや通常のファイルに貼らない）。
-- XSERVER_HOST_FINGERPRINT: XserverのSSH設定に表示されるED25519のSHA256フィンガープリント。形式は SHA256:...。
+ED25519のホスト鍵フィンガープリントは、Xserver管理画面でユーザーが確認した値をworkflow内に固定済み。秘密情報ではない。
 
 GitHub上の変更をmainへ反映後、Actions → Deploy Xserver preview → Run workflowを選択する。
 main以外を指定した実行はスキップされる。コミットだけではアップロードされない。

@@ -132,6 +132,7 @@ if(document.body.dataset.page==='members'&&'IntersectionObserver' in window){
   const revealGroups=[
     ['#members','.members-eyebrow, h1, .members-lead, .members-intro'],
     ['#ceo','.member-photo, .member-role, h2, .member-name-en'],
+    ['#cso','.member-photo, .member-role, h2, .member-name-en'],
     ['#members-contact','.members-eyebrow, h2, .members-contact, .site-footer']
   ];
   const revealObserver=new IntersectionObserver(entries=>{

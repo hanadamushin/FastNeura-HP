@@ -136,7 +136,8 @@ if(document.body.dataset.page==='members'&&'IntersectionObserver' in window){
   ];
   const revealObserver=new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
-      if(entry.intersectionRatio>=.22)entry.target.classList.add('is-revealed');
+      // Keep the background visible after its first reveal; only replay the content.
+      if(entry.intersectionRatio>=.22)entry.target.classList.add('is-revealed','has-revealed-background');
       else if(entry.intersectionRatio<=.02)entry.target.classList.remove('is-revealed');
     });
   },{threshold:[0,.02,.22]});
@@ -148,7 +149,7 @@ if(document.body.dataset.page==='members'&&'IntersectionObserver' in window){
       element.style.setProperty('--reveal-delay',`${index*85}ms`);
     });
     section.classList.add('reveal-ready');
-    section.addEventListener('focusin',()=>section.classList.add('is-revealed'));
+    section.addEventListener('focusin',()=>section.classList.add('is-revealed','has-revealed-background'));
     revealObserver.observe(section);
   });
 }

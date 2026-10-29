@@ -23,7 +23,7 @@ GitHubの標準実行環境は海外から接続することがある。制限�
 
 ## 公開範囲とバックアップ
 
-現在の7ファイル（index.html、members.html、style.css、members.css、ui.js、wave-theme.css、wave.js）だけを送信する。
+現在の8ファイル（index.html、members.html、nayuta-mizuguchi.png、style.css、members.css、ui.js、wave-theme.css、wave.js）だけを送信する。
 追加した画像等は送信対象に追加する必要がある。
 確認用に検索エンジン向けnoindexヘッダーを付けるが、閲覧の制限にはならない。
 

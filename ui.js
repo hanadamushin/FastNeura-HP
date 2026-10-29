@@ -134,6 +134,7 @@ if(document.body.dataset.page==='members'&&'IntersectionObserver' in window){
     ['#ceo','.member-photo, .member-role, h2, .member-name-en'],
     ['#cso','.member-photo, .member-role, h2, .member-name-en'],
     ['#souta','.member-photo, .member-role, h2, .member-name-en'],
+    ['#cto','.member-photo, .member-role, h2, .member-name-en'],
     ['#members-contact','.members-eyebrow, h2, .members-contact, .site-footer']
   ];
   const revealObserver=new IntersectionObserver(entries=>{

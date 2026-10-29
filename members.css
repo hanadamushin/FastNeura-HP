@@ -71,3 +71,12 @@ body[data-page="members"] a:focus-visible,body[data-page="members"] button:focus
 @media(max-width:900px){.member-paint-screen{padding-top:48px}}
 @media(max-width:600px){.member-paint-screen::before{background-position:center;background-size:100% 100%}}
 @media(max-height:650px) and (min-width:901px){.member-paint-screen{padding-top:24px}}
+
+.member-system-screen{display:flex;flex-direction:column;justify-content:center;padding:64px 0;color:#f2f8fa;background:#08151e}
+.member-system-screen::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:url('cto-system-background.png') center/cover no-repeat}
+.member-system-screen .member-role{color:#9ce7dc}
+.member-system-screen .member-name-en{color:#c8dce2}
+.member-system-screen .member-details{text-shadow:0 2px 18px #0006}
+@media(max-width:900px){.member-system-screen{padding-top:48px}}
+@media(max-width:600px){.member-system-screen::before{background-position:62% center}}
+@media(max-height:650px) and (min-width:901px){.member-system-screen{padding-top:24px}}

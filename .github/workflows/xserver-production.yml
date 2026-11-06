@@ -34,7 +34,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/site"
-          for file in index.html members.html fastneura-logo.svg nayuta-mizuguchi.png ceo-ink-background.png renta-kokubo.png cso-coast-background.png souta-hiratsuka.png souta-paint-background.png kosei-nakada.png cto-pencil-background.png style.css members.css ui.js wave-theme.css wave.js; do
+          for file in index.html members.html fastneura-logo-v2.svg nayuta-mizuguchi.png ceo-ink-background.png renta-kokubo.png cso-coast-background.png souta-hiratsuka.png souta-paint-background.png kosei-nakada.png cto-pencil-background.png style.css members.css ui.js wave-theme.css wave.js; do
             test -s "$file"
             test ! -L "$file"
             install -m 644 "$file" "$RUNNER_TEMP/site/$file"

@@ -100,4 +100,3 @@ jobs:
           REMOTE
           scp "$RUNNER_TEMP/site/"* "xserver-production:fastneura.com/public_html/"
           printf '%s\n' 'Uploaded production files. Check https://fastneura.com/ in a browser.' >> "$GITHUB_STEP_SUMMARY"
-
